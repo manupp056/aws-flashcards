@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Flashcards – Cloud Practitioner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>AWS Cloud Practitioner</h1>
+    <p>Simulacros de estudio · CLF-C02</p>
+  </header>
+
+  <!-- TABS DE MODO -->
+  <div class="modo-tabs">
+    <button class="modo-tab activo" id="tab-flashcard" onclick="cambiarModo('flashcard')">Flashcards</button>
+    <button class="modo-tab" id="tab-examen" onclick="cambiarModo('examen')">Modo Examen</button>
+  </div>
+
+  <!-- FILTROS (compartido) -->
+  <div class="filtros" id="filtros"></div>
+
+  <!-- ======== MODO FLASHCARD ======== -->
+  <div id="modo-flashcard">
+    <div class="progreso">
+      <div class="barra-progreso">
+        <div class="barra-fill" id="barra-fill" style="width:0%"></div>
+      </div>
+      <span id="contador-texto">1 / 0</span>
+    </div>
+
+    <div class="scene">
+      <div class="card" id="card">
+        <div class="card-face card-front">
+          <span class="card-tema-badge" id="tema-badge">Tema</span>
+          <div class="card-label">Pregunta</div>
+          <div class="card-text" id="pregunta">Cargando...</div>
+          <div class="card-hint">Click para ver la respuesta · ← → para navegar · Espacio para voltear</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-label">Respuesta</div>
+          <div class="card-text" id="respuesta"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controles">
+      <button class="btn btn-secondary" id="btn-anterior">← Anterior</button>
+      <button class="btn btn-aleatorio" id="btn-aleatorio">Aleatorio</button>
+      <button class="btn btn-primary"   id="btn-siguiente">Siguiente →</button>
+    </div>
+
+    <div class="stats">
+      <span><span class="dot"></span>Usá las flechas del teclado para navegar</span>
+    </div>
+  </div>
+
+  <!-- ======== MODO EXAMEN ======== -->
+  <div id="modo-examen" class="hidden">
+
+    <!-- Config inicial -->
+    <div class="examen-config" id="examen-config">
+      <h2>Modo Examen</h2>
+      <p>Elegí cuántas preguntas querés responder</p>
+      <div class="config-opciones">
+        <button class="config-btn activo" data-n="10" onclick="seleccionarCantidad(this)">10 preguntas</button>
+        <button class="config-btn" data-n="20" onclick="seleccionarCantidad(this)">20 preguntas</button>
+        <button class="config-btn" data-n="50" onclick="seleccionarCantidad(this)">50 preguntas</button>
+        <button class="config-btn" data-n="74" onclick="seleccionarCantidad(this)">Todas (74)</button>
+      </div>
+      <button class="btn btn-primary" onclick="iniciarExamen()">Comenzar examen</button>
+    </div>
+
+    <!-- Pantalla de pregunta -->
+    <div id="pantalla-pregunta" class="hidden">
+      <div class="examen-header">
+        <span id="examen-contador">Pregunta 1 de 10</span>
+        <span class="examen-score">
+          <span class="ok" id="score-ok">0</span> correctas &nbsp;·&nbsp;
+          <span class="mal" id="score-mal">0</span> incorrectas
+        </span>
+      </div>
+
+      <div class="barra-progreso" style="width:100%; margin-bottom:16px;">
+        <div class="barra-fill" id="barra-examen" style="width:0%"></div>
+      </div>
+
+      <div class="examen-pregunta-box">
+        <span class="examen-tema-badge" id="examen-tema-badge">Tema</span>
+        <div class="examen-pregunta-texto" id="examen-pregunta-texto">Pregunta</div>
+      </div>
+
+      <div class="opciones" id="opciones"></div>
+
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-titulo" id="feedback-titulo">Correcto</div>
+        <div id="feedback-texto"></div>
+      </div>
+
+      <button class="btn-siguiente-examen" id="btn-sig-examen" onclick="siguientePreguntaExamen()">
+        Siguiente pregunta →
+      </button>
+    </div>
+
+    <!-- Pantalla de resultado -->
+    <div id="pantalla-resultado" class="hidden">
+      <div class="resultado-box">
+        <div class="resultado-nota" id="resultado-nota">0</div>
+        <div class="resultado-pct" id="resultado-pct">0%</div>
+        <div class="resultado-estado" id="resultado-estado">—</div>
+        <div class="resultado-desglose">
+          <span class="ok">✔ <span id="res-ok">0</span> correctas</span>
+          <span class="mal">✘ <span id="res-mal">0</span> incorrectas</span>
+        </div>
+        <div class="resultado-btns">
+          <button class="btn btn-secondary" onclick="volverConfig()">Repetir examen</button>
+          <button class="btn btn-primary"   onclick="cambiarModo('flashcard')">Volver a Flashcards</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="data/flashcards.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

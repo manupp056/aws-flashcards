@@ -1,0 +1,442 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  color: #ff9900;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 4px;
+}
+
+/* TABS DE MODO */
+.modo-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid #2d3748;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modo-tab {
+  padding: 9px 28px;
+  background: #1a202c;
+  color: #718096;
+  border: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.modo-tab.activo {
+  background: #ff9900;
+  color: #0f1117;
+  font-weight: 700;
+}
+
+/* FILTRO DE TEMAS */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+  max-width: 760px;
+}
+
+.filtro-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #2d3748;
+  background: #1a202c;
+  color: #a0aec0;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover { border-color: #ff9900; color: #ff9900; }
+.filtro-btn.activo { background: #ff9900; color: #0f1117; border-color: #ff9900; font-weight: 600; }
+
+/* PROGRESO */
+.progreso {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.barra-progreso {
+  width: 200px;
+  height: 6px;
+  background: #2d3748;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.barra-fill {
+  height: 100%;
+  background: #ff9900;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* ============ FLASHCARD ============ */
+.scene {
+  width: 100%;
+  max-width: 680px;
+  height: 320px;
+  perspective: 1200px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  border-radius: 16px;
+}
+
+.card.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  text-align: center;
+}
+
+.card-front { background: #1a202c; border: 1px solid #2d3748; }
+.card-back  { background: #1a2744; border: 1px solid #2b4a8a; transform: rotateY(180deg); }
+
+.card-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ff9900;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.card-front .card-label { color: #718096; }
+
+.card-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-line;
+}
+
+.card-back .card-text { font-size: 1rem; color: #bee3f8; }
+
+.card-hint { margin-top: 20px; font-size: 0.75rem; color: #4a5568; }
+
+.card-tema-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #2d3748;
+  color: #a0aec0;
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+/* CONTROLES FLASHCARD */
+.controles {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.btn-primary   { background: #ff9900; color: #0f1117; }
+.btn-primary:hover { background: #e68900; }
+.btn-secondary { background: #2d3748; color: #e2e8f0; }
+.btn-secondary:hover { background: #3d4a5c; }
+.btn-aleatorio { background: #2b4a8a; color: #bee3f8; }
+.btn-aleatorio:hover { background: #3a5fa0; }
+
+.stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #4a5568;
+  margin-top: 8px;
+}
+
+.stats .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff9900; display: inline-block; margin-right: 4px; }
+
+/* ============ MODO EXAMEN ============ */
+#modo-examen { width: 100%; max-width: 680px; }
+
+.examen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+  color: #718096;
+}
+
+.examen-score {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 4px 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.examen-score .ok  { color: #48bb78; }
+.examen-score .mal { color: #fc8181; }
+
+.examen-pregunta-box {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 18px;
+}
+
+.examen-tema-badge {
+  display: inline-block;
+  background: #2d3748;
+  color: #a0aec0;
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.examen-pregunta-texto {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+/* OPCIONES */
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.opcion-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: 1px solid #2d3748;
+  background: #1a202c;
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.5;
+}
+
+.opcion-btn:hover:not(:disabled) {
+  border-color: #ff9900;
+  background: #1e2535;
+}
+
+.opcion-btn.correcta {
+  border-color: #48bb78;
+  background: #1a3028;
+  color: #9ae6b4;
+}
+
+.opcion-btn.incorrecta {
+  border-color: #fc8181;
+  background: #2d1a1a;
+  color: #feb2b2;
+}
+
+.opcion-btn:disabled { cursor: default; }
+
+/* FEEDBACK */
+.feedback-box {
+  display: none;
+  background: #1a2744;
+  border: 1px solid #2b4a8a;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #bee3f8;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.feedback-box.visible { display: block; }
+.feedback-box .feedback-titulo { font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+.feedback-titulo.ok  { color: #48bb78; }
+.feedback-titulo.mal { color: #fc8181; }
+
+.btn-siguiente-examen {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  background: #ff9900;
+  color: #0f1117;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-siguiente-examen:hover { background: #e68900; }
+.btn-siguiente-examen.visible { display: block; }
+
+/* RESULTADO FINAL */
+#pantalla-resultado {
+  display: none;
+  width: 100%;
+  max-width: 680px;
+  text-align: center;
+}
+
+.resultado-box {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 20px;
+  padding: 40px 32px;
+}
+
+.resultado-nota {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ff9900;
+  line-height: 1;
+}
+
+.resultado-pct {
+  font-size: 1.3rem;
+  color: #a0aec0;
+  margin-bottom: 24px;
+}
+
+.resultado-estado {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.resultado-estado.ok  { color: #48bb78; }
+.resultado-estado.mal { color: #fc8181; }
+
+.resultado-desglose {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.resultado-desglose .ok  { color: #48bb78; }
+.resultado-desglose .mal { color: #fc8181; }
+
+.resultado-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Config examen */
+.examen-config {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 680px;
+}
+
+.examen-config h2 { color: #ff9900; margin-bottom: 8px; font-size: 1.2rem; }
+.examen-config p  { color: #718096; font-size: 0.85rem; margin-bottom: 20px; }
+
+.config-opciones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.config-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid #2d3748;
+  background: #1a202c;
+  color: #a0aec0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.config-btn.activo { background: #2b4a8a; color: #bee3f8; border-color: #2b4a8a; font-weight: 600; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 480px) {
+  .scene { height: 260px; }
+  .card-text { font-size: 0.95rem; }
+  header h1 { font-size: 1.3rem; }
+  .examen-pregunta-box { padding: 20px; }
+}
