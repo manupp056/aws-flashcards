@@ -100,4 +100,48 @@ const flashcards = [
   { tema: "Migración", pregunta: "¿Para qué sirve AWS Quick Start?", respuesta: "Plantillas preconfiguradas para desplegar software de terceros rápidamente en AWS." },
   { tema: "Migración", pregunta: "¿Qué es la Facturación Consolidada en AWS Organizations?", respuesta: "Permite unificar el pago de varias cuentas.\n\nLos descuentos por volumen se comparten entre todas las cuentas de la organización." },
   { tema: "Migración", pregunta: "¿Qué acceso tenés a la CLI vs la Consola web de AWS?", respuesta: "Consola → usuario + contraseña\nCLI     → Access Keys (Access Key ID + Secret Access Key)" },
+
+  // === SHARED RESPONSIBILITY (ampliado) ===
+  { tema: "Shared Responsibility", pregunta: "¿Cuáles son ejemplos de seguridad EN la nube (responsabilidad del cliente)?", respuesta: "- Qué servicios de AWS se utilizan con el contenido\n- En qué país se almacena el contenido\n\nEl cliente decide cómo y dónde usa los servicios." },
+  { tema: "Shared Responsibility", pregunta: "¿Qué es responsabilidad exclusiva de AWS?", respuesta: "Mantenimiento del hardware físico\n\nAWS gestiona datacenters, hardware, virtualización e infraestructura física." },
+
+  // === IAM (ampliado) ===
+  { tema: "IAM", pregunta: "¿Qué servicio de AWS ofrece credenciales de seguridad TEMPORALES?", respuesta: "AWS Security Token Service (AWS STS)\n\nGenera credenciales temporales para roles y acceso cruzado entre cuentas." },
+  { tema: "IAM", pregunta: "¿Cuáles son dos prácticas recomendadas de IAM?", respuesta: "1. Supervisar la actividad en tu cuenta de AWS\n2. Rotar las credenciales con regularidad" },
+  { tema: "IAM", pregunta: "¿IAM es adecuado para autenticar sistemas operativos y aplicaciones?", respuesta: "Falso.\n\nIAM gestiona identidades de usuarios/servicios AWS. Para autenticar apps y SO se usan otros mecanismos." },
+  { tema: "IAM", pregunta: "¿Dónde encontrás información sobre acciones prohibidas en la infraestructura de AWS?", respuesta: "Política de uso aceptable de AWS (Acceptable Use Policy)" },
+  { tema: "IAM", pregunta: "¿Para iniciar sesión en la consola se usan clave de acceso y clave secreta?", respuesta: "Falso.\n\nLa consola usa usuario + contraseña.\nLas Access Keys son para CLI, SDK y API." },
+  { tema: "IAM", pregunta: "¿La forma recomendada de administrar permisos por función de trabajo es usar grupos de IAM?", respuesta: "Verdadero.\n\nSe asignan políticas al grupo y se agregan usuarios al grupo según su función." },
+  { tema: "IAM", pregunta: "Después del primer inicio de sesión, ¿qué se recomienda hacer con el usuario raíz?", respuesta: "Eliminar las claves de acceso del usuario raíz.\n\nEl usuario raíz solo debe usarse para tareas que lo requieran específicamente." },
+  { tema: "IAM", pregunta: "¿Qué capa de seguridad adicional se recomienda para el acceso a la consola?", respuesta: "Habilitar la autenticación multifactor (MFA)" },
+  { tema: "IAM", pregunta: "¿Cuáles son dos beneficios de la seguridad en la nube de AWS?", respuesta: "1. Conservás el control y la propiedad completos de tu región de datos\n2. AWS utiliza sistemas de control de acceso multifactor" },
+  { tema: "IAM", pregunta: "¿Cuáles son los dos tipos de acceso al crear una política de IAM?", respuesta: "1. Acceso programático (CLI, SDK, API)\n2. Acceso a la consola de administración de AWS" },
+  { tema: "IAM", pregunta: "¿Cuáles son los tres componentes del programa de conformidad y riesgos de AWS?", respuesta: "1. Seguridad de la información\n2. Administración de riesgos\n3. Entorno controlado" },
+  { tema: "IAM", pregunta: "¿Cuáles son dos programas de AWS Assurance?", respuesta: "1. Certificaciones\n2. Leyes, reglamentos y privacidad" },
+
+  // === VPC (ampliado) ===
+  { tema: "Redes", pregunta: "¿Qué servicio usás para crear una red virtual privada dentro de AWS?", respuesta: "Amazon Virtual Private Cloud (Amazon VPC)" },
+  { tema: "Redes", pregunta: "¿Cuál es el tamaño mínimo de subred que se puede crear en una VPC?", respuesta: "/28 (16 direcciones IP, 5 reservadas por AWS, 11 utilizables)" },
+  { tema: "Redes", pregunta: "¿Cuál es el tamaño máximo del bloque CIDR de una VPC?", respuesta: "/16 (65.536 direcciones IP)" },
+  { tema: "Redes", pregunta: "¿Cómo habilitás acceso a internet desde una subred PRIVADA?", respuesta: "NAT Gateway (Gateway de traducción de direcciones de red)\n\nPermite salida a internet sin exponer la IP privada." },
+  { tema: "Redes", pregunta: "¿Las subredes privadas tienen acceso directo a internet?", respuesta: "Falso.\n\nNecesitan un NAT Gateway en una subred pública para salir a internet." },
+  { tema: "Redes", pregunta: "¿Qué componente de infraestructura global usa CloudFront para baja latencia?", respuesta: "Ubicaciones de borde de AWS (Edge Locations)\n\nCachean el contenido cerca del usuario final." },
+  { tema: "Redes", pregunta: "¿Qué control de seguridad opcional actúa a nivel de SUBRED en una VPC?", respuesta: "Lista de control de acceso a la red (NACL)\n\nA diferencia de Security Groups (nivel instancia), las NACL actúan a nivel subred y son stateless." },
+  { tema: "Redes", pregunta: "¿Qué se crea automáticamente al crear una VPC?", respuesta: "Una tabla de enrutamiento principal (Main Route Table)" },
+  { tema: "Redes", pregunta: "¿Cuántas puertas de enlace de internet (IGW) se pueden asociar a una VPC?", respuesta: "Solo 1.\n\nUna IGW por VPC." },
+  { tema: "Redes", pregunta: "Caso práctico: servidores web y BD con alta disponibilidad, mínimo dos instancias por servicio. ¿Cuántas subredes necesitás?", respuesta: "4 subredes:\n- 2 públicas (servidores web, una por AZ)\n- 2 privadas (bases de datos, una por AZ)\n\nRepartidas en 2 zonas de disponibilidad." },
+  { tema: "Redes", pregunta: "¿Qué se utiliza para dividir una VPC en segmentos más pequeños?", respuesta: "Subredes (Subnets)" },
+  { tema: "Redes", pregunta: "¿Qué define el rango de IPs de una subred?", respuesta: "Un bloque CIDR (Classless Inter-Domain Routing)\n\nEjemplo: 10.0.1.0/24" },
+  { tema: "Redes", pregunta: "¿Cuántas direcciones IP reserva AWS en cada subred?", respuesta: "5 direcciones:\n- Red\n- Router\n- DNS\n- Reservada para uso futuro\n- Broadcast" },
+  { tema: "Redes", pregunta: "¿Qué es una interfaz de red elástica (ENI)?", respuesta: "Una interfaz de red virtual que puede asociarse a una instancia en una VPC.\n\nPermite mover IPs entre instancias." },
+  { tema: "Redes", pregunta: "¿Se pueden crear varias VPC dentro de una misma región?", respuesta: "Verdadero.\n\nPor defecto hasta 5 VPC por región (límite ampliable)." },
+
+  // === ALMACENAMIENTO (ampliado) ===
+  { tema: "Almacenamiento", pregunta: "¿Cómo replica Amazon S3 los objetos?", respuesta: "En varias zonas de disponibilidad dentro de la misma región.\n\nPor eso tiene 11 nueves de durabilidad." },
+  { tema: "Almacenamiento", pregunta: "¿Cuáles son clases de almacenamiento válidas para una política de ciclo de vida de S3?", respuesta: "- S3 Standard (acceso estándar)\n- S3 RRS (almacenamiento de redundancia reducida)\n- S3 Glacier" },
+  { tema: "Almacenamiento", pregunta: "¿Para qué usás Amazon S3 con una aplicación web?", respuesta: "Almacenar contenido estático:\nimágenes, video, CSS, JavaScript, HTML, etc." },
+  { tema: "Almacenamiento", pregunta: "¿Cuándo se recomienda Amazon EBS? (2 razones)", respuesta: "1. Cuando los datos requieren cifrado\n2. Cuando deben ser rápidamente accesibles con persistencia a largo plazo" },
+  { tema: "Almacenamiento", pregunta: "¿Todos los datos en S3 son visibles públicamente por defecto?", respuesta: "Falso.\n\nTodos los buckets y objetos son privados por defecto. Hay que habilitar el acceso público explícitamente." },
+  { tema: "Almacenamiento", pregunta: "¿Las ACL (listas de control de acceso) se usan para hacer público un bucket completo?", respuesta: "Falso.\n\nLas ACL actúan a nivel de OBJETO individual.\nPara hacer público un bucket completo se usa una política de bucket." },
+  { tema: "Almacenamiento", pregunta: "¿Cuáles son dos características de Amazon EBS?", respuesta: "1. Se replica automáticamente dentro de una zona de disponibilidad\n2. Los volúmenes se pueden cifrar de forma transparente para las cargas de trabajo conectadas" },
 ];
