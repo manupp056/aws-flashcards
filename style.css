@@ -432,6 +432,134 @@ header p {
 
 .config-btn.activo { background: #2b4a8a; color: #bee3f8; border-color: #2b4a8a; font-weight: 600; }
 
+/* ============ MODO TEORÍA ============ */
+.teoria-busqueda {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.teoria-busqueda input {
+  width: 100%;
+  padding: 10px 16px;
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.teoria-busqueda input:focus { border-color: #ff9900; }
+.teoria-busqueda input::placeholder { color: #4a5568; }
+
+.teoria-tema {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.teoria-tema-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.teoria-tema-header:hover { background: #1e2535; }
+
+.teoria-tema-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.teoria-tema-icono { font-size: 1.1rem; }
+
+.teoria-chevron {
+  color: #4a5568;
+  font-size: 0.85rem;
+  transition: transform 0.25s;
+}
+
+.teoria-tema.abierto .teoria-chevron { transform: rotate(180deg); }
+.teoria-tema.abierto .teoria-tema-header { border-bottom: 1px solid #2d3748; }
+
+.teoria-tema-body {
+  display: none;
+  padding: 0 20px 16px;
+}
+
+.teoria-tema.abierto .teoria-tema-body { display: block; }
+
+.teoria-seccion {
+  margin-top: 18px;
+}
+
+.teoria-seccion-titulo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ff9900;
+  margin-bottom: 10px;
+}
+
+.teoria-seccion-contenido {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: #cbd5e0;
+}
+
+.teoria-seccion-contenido strong { color: #e2e8f0; }
+
+.teoria-seccion-contenido table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 0.84rem;
+}
+
+.teoria-seccion-contenido th,
+.teoria-seccion-contenido td {
+  text-align: left;
+  padding: 7px 12px;
+  border: 1px solid #2d3748;
+}
+
+.teoria-seccion-contenido th { background: #2d3748; color: #e2e8f0; }
+.teoria-seccion-contenido tr:nth-child(even) td { background: #161c26; }
+
+.teoria-seccion-contenido ul,
+.teoria-seccion-contenido ol {
+  padding-left: 20px;
+  margin: 4px 0;
+}
+
+.teoria-seccion-contenido li { margin-bottom: 3px; }
+
+.teoria-seccion-contenido code {
+  background: #2d3748;
+  color: #f6ad55;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+.teoria-seccion + .teoria-seccion {
+  border-top: 1px solid #2d3748;
+  padding-top: 16px;
+}
+
 .hidden { display: none !important; }
 
 @media (max-width: 480px) {

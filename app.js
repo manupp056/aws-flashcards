@@ -48,10 +48,15 @@ function cambiarModo(modo) {
   modoActual = modo;
   document.getElementById("modo-flashcard").classList.toggle("hidden", modo !== "flashcard");
   document.getElementById("modo-examen").classList.toggle("hidden",    modo !== "examen");
+  document.getElementById("modo-teoria").classList.toggle("hidden",    modo !== "teoria");
   document.getElementById("tab-flashcard").classList.toggle("activo",  modo === "flashcard");
   document.getElementById("tab-examen").classList.toggle("activo",     modo === "examen");
+  document.getElementById("tab-teoria").classList.toggle("activo",     modo === "teoria");
+  // Filtros solo visibles en flashcard/examen
+  document.getElementById("filtros").classList.toggle("hidden", modo === "teoria");
 
   if (modo === "flashcard") mostrarTarjeta(false);
+  if (modo === "teoria") renderizarTeoria(teoria);
 }
 
 // ============================================================
@@ -278,6 +283,84 @@ function volverConfig() {
   document.getElementById("pantalla-resultado").classList.add("hidden");
   document.getElementById("pantalla-pregunta").classList.add("hidden");
   document.getElementById("examen-config").classList.remove("hidden");
+}
+
+// ============================================================
+// MODO TEORÍA
+// ============================================================
+function parsearMarkdown(texto) {
+  return texto.trim()
+    // Tablas
+    .replace(/\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)+)/g, (_, header, rows) => {
+      const ths = header.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+      const trs = rows.trim().split('\n').map(row => {
+        const tds = row.split('|').filter(c => c.trim()).map(c => `<td>${renderInline(c.trim())}</td>`).join('');
+        return `<tr>${tds}</tr>`;
+      }).join('');
+      return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+    })
+    // Listas con guión
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
+    // Listas numeradas
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // Párrafos
+    .split('\n\n').map(p => {
+      if (p.startsWith('<')) return p;
+      return `<p>${renderInline(p.trim())}</p>`;
+    }).join('');
+}
+
+function renderInline(texto) {
+  return texto
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/⚠️|✅|❌|💡|➡️/g, m => m);
+}
+
+function renderizarTeoria(datos) {
+  const cont = document.getElementById("teoria-acordeon");
+  cont.innerHTML = "";
+  datos.forEach((tema, i) => {
+    const div = document.createElement("div");
+    div.className = "teoria-tema";
+    div.dataset.index = i;
+
+    const seccHTML = tema.secciones.map(s => `
+      <div class="teoria-seccion">
+        <div class="teoria-seccion-titulo">${s.titulo}</div>
+        <div class="teoria-seccion-contenido">${parsearMarkdown(s.contenido)}</div>
+      </div>`).join('');
+
+    div.innerHTML = `
+      <div class="teoria-tema-header" onclick="toggleTema(this)">
+        <div class="teoria-tema-titulo">
+          <span class="teoria-tema-icono">${tema.icono}</span>
+          <span>${tema.tema}</span>
+        </div>
+        <span class="teoria-chevron">▼</span>
+      </div>
+      <div class="teoria-tema-body">${seccHTML}</div>`;
+
+    cont.appendChild(div);
+  });
+}
+
+function toggleTema(header) {
+  const tema = header.parentElement;
+  tema.classList.toggle("abierto");
+}
+
+function filtrarTeoria() {
+  const q = document.getElementById("teoria-search").value.toLowerCase();
+  if (!q) { renderizarTeoria(teoria); return; }
+  const filtrado = teoria.filter(t =>
+    t.tema.toLowerCase().includes(q) ||
+    t.secciones.some(s => s.titulo.toLowerCase().includes(q) || s.contenido.toLowerCase().includes(q))
+  );
+  renderizarTeoria(filtrado);
+  // Abrir todos si hay búsqueda
+  document.querySelectorAll(".teoria-tema").forEach(t => t.classList.add("abierto"));
 }
 
 // ============================================================

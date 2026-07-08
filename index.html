@@ -17,6 +17,7 @@
   <div class="modo-tabs">
     <button class="modo-tab activo" id="tab-flashcard" onclick="cambiarModo('flashcard')">Flashcards</button>
     <button class="modo-tab" id="tab-examen" onclick="cambiarModo('examen')">Modo Examen</button>
+    <button class="modo-tab" id="tab-teoria" onclick="cambiarModo('teoria')">Teoría</button>
   </div>
 
   <!-- FILTROS (compartido) -->
@@ -123,7 +124,16 @@
 
   </div>
 
+  <!-- ======== MODO TEORÍA ======== -->
+  <div id="modo-teoria" class="hidden" style="width:100%;max-width:760px;">
+    <div class="teoria-busqueda">
+      <input type="text" id="teoria-search" placeholder="Buscar en la teoría..." oninput="filtrarTeoria()" />
+    </div>
+    <div id="teoria-acordeon"></div>
+  </div>
+
   <script src="data/flashcards.js"></script>
+  <script src="data/teoria.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
