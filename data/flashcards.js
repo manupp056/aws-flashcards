@@ -144,4 +144,63 @@ const flashcards = [
   { tema: "Almacenamiento", pregunta: "¿Todos los datos en S3 son visibles públicamente por defecto?", respuesta: "Falso.\n\nTodos los buckets y objetos son privados por defecto. Hay que habilitar el acceso público explícitamente." },
   { tema: "Almacenamiento", pregunta: "¿Las ACL (listas de control de acceso) se usan para hacer público un bucket completo?", respuesta: "Falso.\n\nLas ACL actúan a nivel de OBJETO individual.\nPara hacer público un bucket completo se usa una política de bucket." },
   { tema: "Almacenamiento", pregunta: "¿Cuáles son dos características de Amazon EBS?", respuesta: "1. Se replica automáticamente dentro de una zona de disponibilidad\n2. Los volúmenes se pueden cifrar de forma transparente para las cargas de trabajo conectadas" },
+
+  // === TEST 195 — REGIONES / GLOBALIDAD ===
+  { tema: "Arquitectura", pregunta: "Empresa con operaciones en Alemania y requisitos de soberanía de datos. ¿Qué criterios priorizar para elegir Región?", respuesta: "Gobernanza de datos + requisitos legales\n\nCuando hay restricciones legales (soberanía, auditorías), son obligaciones que condicionan todo lo demás. No son preferencias opcionales." },
+  { tema: "Arquitectura", pregunta: "¿Cuáles son los tres servicios GLOBALES de AWS? (no viven en una sola Región)", respuesta: "1. IAM — gestión de identidades a nivel de cuenta\n2. CloudFront — CDN con cientos de Edge Locations mundiales\n3. Route 53 — DNS global\n\nEC2 y AMIs son REGIONALES." },
+  { tema: "Arquitectura", pregunta: "¿Por qué las AMIs son regionales y no globales?", respuesta: "Porque hay que COPIARLAS explícitamente entre regiones para que estén disponibles.\nEsa necesidad de copia es la prueba de que son regionales." },
+
+  // === TEST 195 — EC2 ===
+  { tema: "EC2", pregunta: "¿Cuál es la diferencia entre Stop+Start y Reboot en EC2?", respuesta: "Stop+Start → mueve la instancia a HARDWARE NUEVO\nReboot    → reinicia el SO en el MISMO host físico\n\nUsar Stop+Start cuando el host está degradado." },
+  { tema: "EC2", pregunta: "¿Qué error indica que alcanzaste el límite de instancias EC2 en una Región?", respuesta: "Status=start_failed\n\nSoluciones:\n1. Eliminar instancias que ya no se usan\n2. Solicitar aumento del límite (soft limit)" },
+  { tema: "EC2", pregunta: "¿Cuándo elegir On-Demand vs Spot?", respuesta: "On-Demand → principiantes, cargas estables, necesidad de estabilidad\nSpot      → máximo ahorro (~90%), cargas tolerantes a interrupciones\n\nSpot puede apagarse con 2 min de aviso." },
+
+  // === TEST 195 — REDES / VPC ===
+  { tema: "Redes", pregunta: "¿Qué diferencia hay entre Security Groups y NACLs?", respuesta: "Security Group → nivel INSTANCIA, stateful (respuesta automática)\nNACL           → nivel SUBRED, stateless (necesita reglas de entrada Y salida)\n\nSi falla tráfico de salida, revisar ambos." },
+  { tema: "Redes", pregunta: "¿Qué tipo de VPC Endpoint se usa para acceder a CloudWatch Logs sin pasar por internet?", respuesta: "Endpoint de INTERFAZ (AWS PrivateLink)\n\nCrea una IP privada en tu subred que conecta directamente con el servicio AWS.\nNota: los endpoints de GATEWAY solo existen para S3 y DynamoDB." },
+  { tema: "Redes", pregunta: "¿Qué configuración de Route 53 mantiene disponibilidad aunque haya instancias en mal estado?", respuesta: "Active-Active\n\nTodos los endpoints atienden tráfico. Route 53 deja de enviar tráfico a los que fallan. Sin tiempo de espera para activar un secundario." },
+  { tema: "Redes", pregunta: "¿Cuáles son las 3 funciones principales de Route 53?", respuesta: "1. Registro de nombres de dominio\n2. Enrutamiento DNS según políticas\n3. Health checks para no enviar tráfico a endpoints caídos" },
+
+  // === TEST 195 — ALMACENAMIENTO (TEST 195) ===
+  { tema: "Almacenamiento", pregunta: "Datos consultados cada trimestre pero el CEO puede necesitarlos en cualquier momento. ¿Qué clase de S3?", respuesta: "S3 Standard-IA (Infrequent Access)\n\nAcceso poco frecuente → menor coste de almacenamiento\nAcceso inmediato cuando se necesita → descarta Glacier\n\nGlacier = recuperación en minutos/horas." },
+  { tema: "Almacenamiento", pregunta: "Sube el coste de S3 y aparecen errores HTTP 503 en PUT/DELETE. ¿Cuál es la causa?", respuesta: "El versionado (versioning) no está habilitado correctamente.\n\n503 Slow Down = S3 recibe más solicitudes de las que puede absorber, relacionado con configuración de versioning." },
+  { tema: "Almacenamiento", pregunta: "Storage Gateway falla pero el disco caché sigue accesible. ¿Qué hacer para reanudar rápido?", respuesta: "Volver a CONECTAR la gateway existente.\n\nLa caché está intacta → no hay que reconstruir nada. Crear una nueva gateway sería lento y descartaría la caché." },
+  { tema: "Almacenamiento", pregunta: "¿Cómo cambiar un volumen EBS de tipo gp2 a io1? (3 pasos)", respuesta: "1. Crear SNAPSHOT del volumen gp2 (copia de seguridad)\n2. Crear NUEVO volumen io1 desde el snapshot\n3. BORRAR el volumen antiguo\n\nSnapshot → nuevo volumen → eliminar el viejo." },
+
+  // === TEST 195 — BASES DE DATOS ===
+  { tema: "Bases de Datos", pregunta: "¿Qué servicios AWS se usan para arquitectura STATELESS (estado externo a la instancia)?", respuesta: "DynamoDB — estado persistente, acceso por clave, baja latencia\nElastiCache — estado en memoria, aún más rápido para sesiones activas\n\nPermite que cualquier instancia atienda cualquier usuario." },
+  { tema: "Bases de Datos", pregunta: "¿Qué 3 características de DynamoDB son argumentos para una app móvil de banco?", respuesta: "1. Latencia de un solo dígito (milisegundos)\n2. Modelos clave-valor y documento\n3. Colecciones desordenadas de pares nombre-valor (tipo Map)" },
+  { tema: "Bases de Datos", pregunta: "¿Cuándo usás DynamoDB vs Redshift?", respuesta: "DynamoDB → eventos/sesiones de app, alto volumen, acceso por clave, baja latencia\nRedshift  → data warehouse, petabytes, análisis BI, consultas SQL complejas" },
+  { tema: "Bases de Datos", pregunta: "¿Qué servicio de AWS es para flujos de datos en tiempo real (streaming)?", respuesta: "Amazon Kinesis\n\nIngiere y procesa flujos continuos en tiempo real.\nSe integra con Lambda para procesamiento serverless." },
+
+  // === TEST 195 — SERVERLESS ===
+  { tema: "Serverless", pregunta: "¿Cuántas políticas IAM usa AWS Lambda?", respuesta: "2 políticas:\n1. Política de ejecución → qué puede hacer la función (hacia afuera: S3, DynamoDB...)\n2. Política basada en recursos → quién puede invocar la función (desde afuera)" },
+  { tema: "Serverless", pregunta: "¿Para qué tipo de cómputo es ideal el modelo serverless?", respuesta: "Cargas muy esporádicas o impredecibles.\n\nLambda factura solo por milisegundos de ejecución.\nEscala a cero cuando no hay actividad. Sin servidores que mantener." },
+
+  // === TEST 195 — IAM / SEGURIDAD ===
+  { tema: "IAM", pregunta: "¿Qué clave de condición IAM usás para controlar acceso según las etiquetas de la IDENTIDAD (usuario/rol)?", respuesta: "aws:PrincipalTag/key-name\n\nControl de acceso basado en atributos (ABAC).\nUna sola política cubre muchos usuarios sin escribir reglas individuales.\n\nOJO: ResourceTag = etiqueta del recurso / RequestTag = etiqueta enviada en la petición." },
+  { tema: "IAM", pregunta: "¿Para qué sirven las políticas IAM con condiciones de etiqueta?", respuesta: "Para AUTORIZAR o DENEGAR acciones según el valor de una etiqueta.\n\nEjemplo: 'permitir acciones EC2 solo si el recurso está etiquetado como entorno=dev'\n\nNO sirven para asignar costes, organizar grupos ni programar scripts." },
+  { tema: "IAM", pregunta: "¿Qué hace AWS Config si el rol IAM asociado es inválido?", respuesta: "No puede agregar datos de configuración.\n\nSolución: seleccionar o crear un rol IAM válido con los permisos correctos.\nConfig necesita asumir ese rol para inspeccionar recursos." },
+
+  // === TEST 195 — ETIQUETAS ===
+  { tema: "Etiquetas", pregunta: "¿Cuáles son los límites de las etiquetas AWS? (4 reglas clave)", respuesta: "1. Clave: 1 a 128 caracteres Unicode\n2. Valor: máximo 256 caracteres Unicode\n3. Distinguen mayúsculas/minúsculas (Env ≠ env)\n4. No pueden empezar por 'aws:' (reservado)\n5. Máximo 50 etiquetas por recurso" },
+  { tema: "Etiquetas", pregunta: "¿Qué etiquetas son más útiles para AUTOMATIZACIÓN?", respuesta: "1. Fecha/hora → decide sobre qué recursos actuar según tiempo\n2. Inclusión/exclusión (opt-in/opt-out) → interruptor para el script\n\nConfidencialidad, versión y centro de costes describen el recurso pero no guían la lógica del script." },
+
+  // === TEST 195 — MONITOREO ===
+  { tema: "Monitoring", pregunta: "¿Qué métrica de CloudWatch mide los bytes ESCRITOS en volúmenes de almacén de instancias?", respuesta: "DiskWriteBytes\n\nRegla: Disk + [Read/Write] + [Bytes/Ops]\n- DiskWriteBytes → cuántos bytes se escribieron\n- DiskWriteOps   → cuántas operaciones de escritura\n- DiskReadBytes  → cuántos bytes se leyeron" },
+  { tema: "Monitoring", pregunta: "¿Qué límites de CloudWatch son flexibles (soft limits, se pueden ampliar)?", respuesta: "DescribeAlarms y ListMetrics\n\nSon operaciones de API con cuota de transacciones/segundo ampliable.\nLos límites de periodo no son cuotas de servicio." },
+  { tema: "Monitoring", pregunta: "¿Qué extensión tienen los archivos de log de CloudTrail en S3?", respuesta: ".gz (gzip)\n\nCloudTrail guarda logs en formato JSON comprimido con gzip.\nExtensión completa: .json.gz" },
+
+  // === TEST 195 — CLOUDFORMATION ===
+  { tema: "CloudFormation", pregunta: "¿Cuáles son los límites numéricos de una plantilla de CloudFormation?", respuesta: "200 parámetros\n200 outputs (salidas)\n500 recursos\n\nSi necesitás más, dividís en varias pilas y exportás/importás valores." },
+  { tema: "CloudFormation", pregunta: "¿Qué sección de CloudFormation va después de Description y aporta información sobre la plantilla?", respuesta: "Metadata\n\nContiene información adicional sobre la plantilla (no crea recursos).\nDescripción de parámetros, agrupación en consola, notas." },
+  { tema: "CloudFormation", pregunta: "¿Qué ocurre si modificás recursos de una pila CloudFormation manualmente (fuera de CloudFormation)?", respuesta: "La pila puede quedar en estado IRRECUPERABLE.\n\nIntroduce 'drift': divergencia entre lo declarado en la plantilla y el estado real.\nFuturas actualizaciones o eliminaciones pueden fallar." },
+  { tema: "CloudFormation", pregunta: "¿Cuáles son 3 restricciones de las referencias cruzadas entre pilas (cross-stack)?", respuesta: "1. No se pueden hacer entre REGIONES distintas\n2. Una pila no puede eliminarse si otra la referencia\n3. Los nombres de exportación deben ser ÚNICOS dentro de la Región" },
+  { tema: "CloudFormation", pregunta: "¿Cuáles son 3 buenas prácticas de CloudFormation?", respuesta: "1. Agrupar recursos por propiedad y ciclo de vida\n2. Reutilizar plantillas parametrizadas para distintos entornos\n3. Planificar y diseñar las pilas antes de crearlas" },
+  { tema: "CloudFormation", pregunta: "Al definir un rol de servicio en una plantilla, ¿qué más hay que especificar?", respuesta: "Los recursos que usarán el rol + agregar una dependencia (DependsOn) respecto a la política.\n\nSin DependsOn, CloudFormation puede crear el recurso antes que sus permisos, y falla." },
+
+  // === TEST 195 — SEGURIDAD AVANZADA ===
+  { tema: "Seguridad", pregunta: "¿Cómo diferenciás Trusted Advisor, Inspector, GuardDuty y WAF?", respuesta: "Trusted Advisor → recomendaciones (costos, rendimiento, seguridad, límites)\nInspector       → evalúa seguridad de aplicaciones de forma automatizada\nGuardDuty       → detecta amenazas y comportamiento malicioso\nWAF             → firewall para aplicaciones web (reglas HTTP)" },
+  { tema: "Seguridad", pregunta: "¿Qué 3 capas protegen los datos de clientes frente a atacantes?", respuesta: "1. Políticas de permisos (IAM) — control de acceso\n2. Network Firewall + GuardDuty — filtrado de red y detección de amenazas\n3. TLS (en tránsito) + KMS (en reposo) — cifrado" },
+  { tema: "Seguridad", pregunta: "¿Qué responsabilidades de seguridad son EXCLUSIVAS del cliente (no de AWS)?", respuesta: "- Conexiones a la red (Security Groups, NACLs)\n- Control de acceso a recursos (IAM)\n- Datos almacenados por el cliente\n\nAWS gestiona: hardware, hipervisor, infraestructura física y sus parches." },
 ];
