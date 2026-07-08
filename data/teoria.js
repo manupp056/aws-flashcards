@@ -633,5 +633,192 @@ spam, phishing, ataques DDoS desde IPs de AWS, malware.
         `
       }
     ]
+  },
+  {
+    tema: "IA y Machine Learning",
+    icono: "🤖",
+    secciones: [
+      {
+        titulo: "Jerarquía: IA ⊃ ML ⊃ Deep Learning ⊃ IA Generativa",
+        contenido: `**Inteligencia Artificial (IA):** campo amplio que engloba sistemas capaces de realizar tareas que normalmente requieren inteligencia humana (percepción, razonamiento, aprendizaje, toma de decisiones).
+
+**Machine Learning (ML):** subconjunto de la IA. Usa datos para que las máquinas mejoren su rendimiento en tareas sin ser programadas explícitamente.
+
+**Aprendizaje profundo (Deep Learning, DL):** subconjunto del ML. Usa redes neuronales artificiales inspiradas en el cerebro (nodos organizados en capas). Ejemplo: **Amazon Rekognition** analiza millones de imágenes usando DL.
+
+**IA Generativa:** subconjunto del DL. Adapta modelos creados con DL sin necesidad de reentrenamiento. Genera nuevos datos (texto, imagen, audio, código) basándose en patrones aprendidos.
+
+⚠️ Regla de examen: cada concepto es subconjunto del anterior. **IA ⊃ ML ⊃ DL ⊃ IA Generativa.**`
+      },
+      {
+        titulo: "Tipos de aprendizaje ML",
+        contenido: `| Tipo | Datos requeridos | Objetivo | Ejemplo |
+|---|---|---|---|
+| **Supervisado** | Etiquetados (con respuesta esperada) | Aprender función de mapeo entrada→salida | Filtro de spam, detección de fraude |
+| **No supervisado** | No etiquetados | Descubrir patrones ocultos | Segmentación de clientes, clustering |
+| **Por refuerzo** | Puntuación de rendimiento (recompensas/penalizaciones) | Aprender comportamiento óptimo mediante prueba y error | AWS DeepRacer, juegos |
+| **Semisupervisado** | Parcialmente etiquetados | Combinar lo mejor de supervisado y no supervisado | — |
+
+💡 Regla rápida de examen: etiquetas/resultado esperado → supervisado · descubrir patrones sin etiquetas → no supervisado · recompensas/penalizaciones → por refuerzo.
+
+**Subcategorías del aprendizaje supervisado:**
+- **Clasificación:** asigna categorías (detección de fraude, diagnóstico médico, clasificación de imágenes).
+- **Regresión:** predice valores numéricos continuos (predicción de precios, previsión meteorológica).
+
+**Subcategorías del aprendizaje no supervisado:**
+- **Clustering:** agrupa datos por similitud (segmentación de clientes, marketing orientado).
+- **Reducción de dimensionalidad:** reduce características preservando información (compresión, visualización).`
+      },
+      {
+        titulo: "Inferencia: por lotes vs. tiempo real",
+        contenido: `| Tipo | Cuándo se usa | Prioridad |
+|---|---|---|
+| **Por lotes** | Analiza grandes volúmenes de datos de una vez (análisis de datos, procesamiento masivo) | Precisión > velocidad |
+| **Tiempo real** | Responde a información nueva de inmediato (chatbots, vehículos autónomos) | Decisión inmediata; no hay tiempo para analizar grandes conjuntos |
+
+💡 El caso de uso determina cuál elegir. No hay una opción universalmente mejor.`
+      },
+      {
+        titulo: "Modelos fundacionales (FM) y su ciclo de vida",
+        contenido: `Los FM son modelos entrenados con datos a escala de Internet. A diferencia del ML tradicional, **un solo FM puede realizar múltiples tareas** (generación de texto, resumen, imágenes, chatbots) sin necesidad de entrenar modelos separados.
+
+**Ciclo de vida del FM (proceso iterativo):**
+1. **Selección de datos** — se usan datos sin etiquetar a escala masiva (más fáciles de obtener que datos etiquetados).
+2. **Entrenamiento previo** — aprendizaje autosupervisado; el modelo aprende contexto y relaciones. Puede continuarse con entrenamiento previo continuo.
+3. **Optimización** — prompt engineering, RAG o fine-tuning (ver sección siguiente).
+4. **Evaluación** — métricas y puntos de referencia para verificar que el modelo cumple requisitos empresariales.
+5. **Implementación** — integración en aplicaciones, APIs u otros sistemas.
+6. **Retroalimentación y mejora continua** — monitoreo, retroalimentación de usuarios e iteración del modelo.
+
+💡 Es un proceso **iterativo**: cada etapa informa la siguiente.
+
+**Tipos de modelos fundacionales:**
+- **LLM (Large Language Models):** basados en arquitectura de transformadores. Procesan tokens (unidades básicas de texto). Usan embeddings/vectores para representar significado.
+- **Modelos de difusión:** generan imágenes partiendo de ruido puro (difusión directa → difusión inversa). Ejemplo: texto a imagen.
+- **Modelos multimodales:** procesan múltiples tipos de entrada/salida simultáneamente (texto + imagen).
+- **GAN (Redes generativas antagónicas):** Generador vs. Discriminador compiten hasta que el generador produce datos indistinguibles de los reales.
+- **VAE (Codificadores automáticos variacionales):** Codificador → espacio latente → Decodificador. Generan nuevas muestras del espacio latente.`
+      },
+      {
+        titulo: "Optimización: Prompt Engineering vs. Fine-tuning vs. RAG",
+        contenido: `| Técnica | Qué hace | ¿Cambia el modelo? | Costo/complejidad |
+|---|---|---|---|
+| **Prompt Engineering** | Diseña instrucciones (prompts) para guiar el comportamiento del modelo | No | Bajo — la más rápida y económica |
+| **Fine-tuning (ajuste)** | Entrenamiento supervisado con dataset pequeño y específico; modifica las ponderaciones del modelo | Sí | Medio/alto |
+| **RAG (Generación Aumentada por Recuperación)** | Recupera documentos relevantes del dominio y los usa como contexto en la petición | No | Medio |
+
+⚠️ Distinción clave de examen: **RAG NO cambia las ponderaciones del modelo; fine-tuning SÍ las cambia.**
+
+**Estructura de un prompt (Prompt Engineering):**
+- **Instrucciones:** qué debe hacer el modelo.
+- **Contexto:** información externa para orientar la respuesta.
+- **Datos de entrada:** la pregunta o tema concreto.
+- **Indicador de salida:** formato o tipo de respuesta esperada.
+
+**Fine-tuning — dos enfoques:**
+- **Refinamiento de instrucciones:** ejemplos de cómo responder a instrucciones específicas.
+- **RLHF (Aprendizaje por refuerzo con retroalimentación humana):** datos de retroalimentación humana para alinear el modelo con preferencias humanas.`
+      },
+      {
+        titulo: "Servicios AWS de IA/ML — tabla completa",
+        contenido: `| Dominio | Servicio | Función principal |
+|---|---|---|
+| **Texto y documentos** | Amazon Comprehend | NLP: extrae entidades, frases clave, sentimiento, idioma de texto no estructurado |
+| **Texto y documentos** | Amazon Translate | Traducción automática neuronal (más natural que algoritmos basados en reglas) |
+| **Texto y documentos** | Amazon Textract | Extrae texto y datos de documentos escaneados — va más allá del OCR; identifica formularios y tablas |
+| **Chatbots** | Amazon Lex | Interfaces conversacionales por voz y texto (misma tecnología que Alexa): ASR + NLU |
+| **Voz** | Amazon Polly | Texto a voz — síntesis de voz realista en docenas de idiomas |
+| **Voz** | Amazon Transcribe | Voz a texto (ASR) — transcripción de audio en tiempo real o por lotes; útil para subtítulos y análisis |
+| **Visión** | Amazon Rekognition | Análisis de imágenes y video: objetos, personas, texto, escenas, contenido inapropiado, reconocimiento facial |
+| **Búsqueda** | Amazon Kendra | Búsqueda empresarial inteligente con ML — conecta repositorios dispersos |
+| **Recomendaciones** | Amazon Personalize | Recomendaciones individualizadas en tiempo real (como las de Amazon.com) |
+| **Misceláneo** | AWS DeepRacer | Coche autónomo a escala 1/18 para aprender aprendizaje por refuerzo de forma práctica |
+| **ML base** | Amazon SageMaker AI | Plataforma completamente administrada para crear, entrenar e implementar modelos de ML propios |
+| **IA Generativa** | Amazon SageMaker JumpStart | Soluciones y modelos preconstruidos (150+ modelos de código abierto), despliegue con un clic |
+| **IA Generativa** | Amazon Bedrock | Acceso a FM de terceros (AI21 Labs, Anthropic, Cohere, Meta, Mistral AI, Stability AI, Amazon) vía una única API, sin servidor |
+| **IA Generativa** | Amazon Q | Asistente generativo para el trabajo, adaptable a datos y sistemas empresariales |
+| **IA Generativa** | Amazon Q Developer | Recomendaciones de código basadas en ML para C#, Java, JS, Python, TypeScript |
+
+⚠️ Confusión frecuente: **Amazon Bedrock** (acceso a FM de terceros vía API) ≠ **Amazon SageMaker AI** (plataforma para construir y entrenar modelos ML propios desde cero).
+
+💡 **PartyRock** es el Playground de Amazon Bedrock para experimentar de forma lúdica.`
+      },
+      {
+        titulo: "Casos de uso por sector",
+        contenido: `| Sector | Aplicaciones clave con IA |
+|---|---|
+| **Medios y entretenimiento** | Generación de guiones/contenido, entornos de realidad virtual, resúmenes periodísticos automáticos |
+| **Comercio minorista** | Resúmenes de reseñas, optimización de precios, pruebas virtuales, diseño de tiendas |
+| **Sanidad** | AWS HealthScribe (notas clínicas automáticas), planes de tratamiento personalizados, mejora de imágenes médicas |
+| **Ciencias de la vida** | Descubrimiento de medicamentos, predicción del plegamiento de proteínas, biología sintética |
+| **Servicios financieros** | Detección de fraude, gestión de carteras, optimización del cobro de deudas |
+| **Fabricación** | Mantenimiento predictivo, optimización de procesos, diseño de productos, ciencia de materiales |
+
+**Casos de uso por tipo de aplicación:**
+- **Visión artificial:** conducción autónoma, diagnóstico por imagen médica, seguridad pública.
+- **NLP:** extracción de información en seguros, recomendaciones en telecomunicaciones, chatbots educativos.
+- **IDP (Procesamiento Inteligente de Documentos):** hipotecas, documentos legales, reclamaciones sanitarias. Va más allá del OCR: clasifica, resume y extrae información procesable.
+- **Detección de fraude:** servicios financieros, comercio minorista, telecomunicaciones.
+
+⚠️ **Cuándo NO usar ML:** si se puede determinar el valor con reglas simples, cálculos o pasos predeterminados, no hace falta ML. El examen pone escenarios simples (descuento con fórmula fija) como distractores.`
+      },
+      {
+        titulo: "Desafíos de la IA generativa",
+        contenido: `| Desafío | Descripción | Mitigación |
+|---|---|---|
+| **Infracciones normativas** | El modelo puede exponer información confidencial (PII) inadvertidamente | Anonimización de datos; auditorías del conjunto de entrenamiento |
+| **Riesgos sociales** | Contenido no deseado que afecta la reputación de la organización | Pruebas y evaluación antes de despliegue en producción |
+| **Privacidad y seguridad** | Datos personales compartidos con el modelo pueden infringir leyes de privacidad | Cifrado, firewalls, medidas de ciberseguridad |
+| **Toxicidad** | Contenido provocativo, ofensivo o inapropiado | Filtrado de datos de entrenamiento; guardrails (modelos de barrera de protección) |
+| **Alucinaciones** | Respuestas poco exactas que no concuerdan con los datos de entrenamiento (el modelo "inventa") | Verificación con fuentes independientes; marcar el contenido como no verificado |
+| **Interpretabilidad** | Los usuarios pueden malinterpretar el resultado del modelo | Conocimiento de dominio específico en el desarrollo del modelo |
+| **Indeterminismo** | El modelo puede generar respuestas distintas ante la misma entrada | Pruebas repetidas; comparación de resultados para garantizar coherencia |
+
+⚠️ Distinción clave: **Alucinación** (respuesta inexacta) ≠ **Toxicidad** (contenido ofensivo) ≠ **Indeterminismo** (resultados distintos ante la misma entrada). Son tres desafíos distintos con mitigaciones distintas.`
+      },
+      {
+        titulo: "Factores para seleccionar un modelo de IA generativa",
+        contenido: `Al elegir un FM hay que considerar seis factores:
+
+- **Tipo de modelo:** ¿qué tarea debe realizar? (generación de texto, imágenes, código, multimodal...). Cada modelo está optimizado para distintas tareas.
+- **Requisitos de rendimiento:** exactitud, fiabilidad, latencia. Probar con diferentes datasets; monitorear a lo largo del tiempo.
+- **Restricciones:** recursos de cómputo (GPU/CPU/memoria), disponibilidad de datos, requisitos de implementación (nube vs. on-premises).
+- **Capacidades:** algunos modelos destacan en texto, otros en imágenes, otros en tareas multimodales.
+- **Cumplimiento:** implicaciones éticas (sesgos, privacidad, usos indebidos). Especialmente importante en sanidad, finanzas y aplicaciones legales. Factores: equidad, transparencia, responsabilidad, alucinaciones, toxicidad.
+- **Costo:** modelos más grandes → más precisos pero más caros y con pocas opciones de despliegue; modelos más pequeños → más económicos, rápidos y flexibles.
+
+**Modelos disponibles en Amazon Bedrock:**
+
+| Proveedor | Modelo | Especialidad |
+|---|---|---|
+| AI21 Labs | Jurassic-2 | Generación de texto, resúmenes, chat |
+| Amazon | Amazon Titan | Resumen, clasificación, búsqueda, embeddings |
+| Anthropic | Claude | Generación de contenido, código, análisis legal |
+| Stability AI | Stable Diffusion | Generación de imágenes fotorrealistas desde texto |
+| Cohere | Command | Generación de texto, extracción de información |
+| Meta | Llama | Chat, resúmenes, análisis de sentimiento |`
+      },
+      {
+        titulo: "Métricas empresariales para IA generativa",
+        contenido: `El éxito de la IA se mide no solo técnicamente sino también por su impacto en objetivos empresariales (ROI).
+
+| Métrica | Descripción | Ejemplo |
+|---|---|---|
+| **Satisfacción del usuario** | Retroalimentación de usuarios sobre el contenido/recomendaciones generados por IA | E-commerce: mejorar lealtad y compras repetidas |
+| **ARPU (Ingreso Promedio por Usuario)** | Ingreso promedio generado por usuario atribuido a la aplicación de IA | E-commerce: identificar oportunidades de monetización |
+| **Rendimiento entre dominios** | Capacidad del modelo para funcionar en diferentes dominios y sectores | Plataforma con múltiples categorías y regiones geográficas |
+| **Tasa de conversión** | Porcentaje de visitantes que realizan la acción deseada (compra, suscripción, etc.) | Tienda de ropa: visitantes que completan una compra |
+| **Eficiencia** | Uso de recursos, tiempo de cómputo y escalabilidad del modelo | Fabricación: optimizar línea de producción, reducir costos |
+
+💡 Estas métricas permiten evaluar rendimiento, efectividad y ROI de las aplicaciones de IA generativa y guiar la toma de decisiones estratégicas.
+
+**Ventajas de las soluciones de IA de AWS:**
+- Desarrollo e implementación acelerados (Q Developer genera código en tiempo real; Bedrock ofrece modelos listos).
+- Escalabilidad y precios de pago por uso.
+- Flexibilidad: acceso a los últimos modelos vía Bedrock con una sola API.
+- Integración nativa con el ecosistema AWS (Comprehend, Rekognition, etc.).
+- Infraestructura segura con modelo de responsabilidad compartida.`
+      }
+    ]
   }
 ];
