@@ -233,4 +233,63 @@ const flashcards = [
   { tema: "IA y ML", pregunta: "¿Qué factores hay que considerar al seleccionar un modelo de IA generativa?", respuesta: "1. Tipo de modelo (para qué tarea está optimizado)\n2. Requisitos de rendimiento (exactitud, latencia)\n3. Restricciones (GPU, datos, despliegue)\n4. Capacidades (texto, imagen, multimodal)\n5. Cumplimiento (ética, privacidad, regulación)\n6. Costo (modelos grandes = más precisos pero más caros)" },
   { tema: "IA y ML", pregunta: "¿Qué es el IDP (Procesamiento Inteligente de Documentos) y en qué va más allá del OCR?", respuesta: "IDP extrae información de documentos no estructurados, pero además:\n- CLASIFICA documentos\n- GENERA resúmenes\n- Produce información PROCESABLE\n\nOCR solo reconoce texto; IDP lo interpreta y estructura.\nServicio AWS: Amazon Textract." },
   { tema: "IA y ML", pregunta: "¿Qué es Amazon Kendra?", respuesta: "Servicio de búsqueda empresarial INTELIGENTE con ML.\n\nConecta repositorios de contenido dispersos dentro de la organización para que empleados y clientes encuentren información fácilmente." },
+
+  // === SEGURIDAD (ampliado) ===
+  { tema: "Seguridad", pregunta: "¿Qué dos servicios de AWS se usan para desplegar certificados SSL/TLS en un sitio web?", respuesta: "AWS Certificate Manager (ACM) + Amazon Route 53\n\nACM emite y gestiona los certificados; Route 53 asocia el dominio y valida el certificado vía DNS." },
+  { tema: "Seguridad", pregunta: "¿Qué dos características usa AWS para proteger tus datos en la nube?", respuesta: "1. Control de acceso (IAM)\n2. Cifrado de datos (en reposo y en tránsito)" },
+  { tema: "Seguridad", pregunta: "¿Cómo notifica AWS a los clientes sobre eventos de seguridad y privacidad?", respuesta: "Mediante boletines de seguridad (AWS Security Bulletins)\n\nCanal oficial para vulnerabilidades y actualizaciones críticas." },
+  { tema: "Seguridad", pregunta: "¿Qué dos servicios ayudan a hacer análisis de seguridad y auditoría de cumplimiento normativo?", respuesta: "Amazon Inspector — analiza vulnerabilidades en EC2\nAWS Config — evalúa configuración de recursos contra reglas de cumplimiento" },
+  { tema: "Seguridad", pregunta: "¿Qué servicio gestiona las claves usadas para cifrar los datos del cliente?", respuesta: "AWS Key Management Service (KMS)\n\nCrea, importa, rota y controla el acceso a las claves de cifrado." },
+  { tema: "Seguridad", pregunta: "¿Qué servicio permite descargar informes SOC y PCI de AWS?", respuesta: "AWS Artifact\n\nAcceso bajo demanda a informes de cumplimiento y auditoría (SOC, PCI, ISO)." },
+
+  // === ARQUITECTURA (ampliado) ===
+  { tema: "Arquitectura", pregunta: "¿Qué dos servicios de AWS escalan automáticamente sin intervención del usuario?", respuesta: "Amazon S3 y AWS Lambda\n\nEC2 y RDS necesitan configurar Auto Scaling o escalado manual." },
+  { tema: "Arquitectura", pregunta: "¿Qué dos principios de diseño se relacionan con la eficiencia del rendimiento en AWS?", respuesta: "1. Arquitecturas multi-región (reduce latencia para clientes globales)\n2. Arquitecturas serverless (escalan automáticamente y optimizan recursos)" },
+  { tema: "Arquitectura", pregunta: "¿Qué actividad apoya el pilar de Excelencia Operacional del Well-Architected Framework?", respuesta: "Usar AWS CloudFormation para gestionar infraestructura como código.\n\nAutomatiza, da consistencia y reduce errores humanos." },
+  { tema: "Arquitectura", pregunta: "¿Cuáles son los beneficios clave de usar un servicio administrado (managed) de AWS?", respuesta: "1. Permite lanzar nuevas soluciones más rápido (AWS gestiona la infraestructura)\n2. Reduce la complejidad operativa (mantenimiento, parches, día a día)\n\nOjo: no da control TOTAL, AWS gestiona la capa de infraestructura." },
+  { tema: "Arquitectura", pregunta: "¿Qué dos factores hay que considerar al elegir la Región donde desplegar recursos de AWS?", respuesta: "1. Soberanía de datos (leyes/regulaciones locales)\n2. Costo (los precios varían entre regiones)\n\nEl nivel de seguridad es consistente en TODAS las regiones AWS — no es un factor diferenciador." },
+
+  // === EC2 (ampliado) ===
+  { tema: "EC2", pregunta: "¿Cómo mejora ELB (Elastic Load Balancer) la fiabilidad de una aplicación?", respuesta: "Asegurando que solo los destinos SANOS reciban tráfico.\n\nELB hace health checks periódicos y deja de enviar tráfico a instancias que fallan." },
+  { tema: "EC2", pregunta: "¿Cómo se llaman los servidores virtuales de AWS?", respuesta: "Instancias de Amazon EC2\n\nPueden ejecutar distintos sistemas operativos y aplicaciones." },
+  { tema: "EC2", pregunta: "¿Cuáles son dos responsabilidades del CLIENTE al usar Amazon EC2?", respuesta: "1. Proteger los datos sensibles (cifrado)\n2. Instalar y configurar software de terceros\n\nAWS gestiona la infraestructura física subyacente." },
+
+  // === BASES DE DATOS (ampliado) ===
+  { tema: "Bases de Datos", pregunta: "¿Qué característica de RDS descarga la actividad de LECTURA de la base de datos principal?", respuesta: "Read Replicas (réplicas de lectura)\n\nMejoran el rendimiento y la capacidad de respuesta de la app." },
+  { tema: "Bases de Datos", pregunta: "¿Qué servicio mejora el rendimiento de una app con MySQL cacheando datos en memoria?", respuesta: "Amazon ElastiCache\n\nAlmacena datos frecuentemente accedidos en memoria, reduce la latencia." },
+  { tema: "Bases de Datos", pregunta: "¿Qué mejor opción de almacenamiento usarías para una base de datos con alta actividad de lectura/escritura?", respuesta: "Amazon EBS\n\nProvee IOPS consistentes y baja latencia, ideal para BD transaccionales (MySQL, PostgreSQL).\nS3 no sirve: es almacenamiento de objetos, no transaccional." },
+  { tema: "Bases de Datos", pregunta: "¿Qué dos factores determinan la tecnología de base de datos apropiada para una carga de trabajo?", respuesta: "1. Número de lecturas/escrituras por segundo (OLTP vs OLAP)\n2. Naturaleza de las consultas (SQL, NoSQL, complejidad)" },
+  { tema: "Bases de Datos", pregunta: "¿Qué dos formas se pueden usar para crear nuevas instancias RDS?", respuesta: "1. AWS CloudFormation (infraestructura como código)\n2. Consola de Administración de AWS (creación manual)" },
+
+  // === COSTOS (ampliado) ===
+  { tema: "Costos", pregunta: "¿Qué servicio ofrece descuentos por VOLUMEN según el uso de almacenamiento?", respuesta: "Amazon S3\n\nCuanto más almacenamiento usás, menor es el precio por GB (precios decrecientes)." },
+  { tema: "Costos", pregunta: "¿Cómo evitar el gasto excesivo en instancias reservadas infrautilizadas?", respuesta: "Usar AWS Budgets para rastrear el uso de RIs y configurar alertas cuando la utilización caiga por debajo de un umbral." },
+  { tema: "Costos", pregunta: "¿Qué reporte da los datos MÁS DETALLADOS sobre costos y uso de AWS?", respuesta: "AWS Cost and Usage Report\n\nDatos por hora, servicio, etiqueta y otros metadatos — el más granular de todos." },
+  { tema: "Costos", pregunta: "¿Por qué las empresas emergentes (startups) prefieren AWS frente a on-premises?", respuesta: "1. Reduce el tiempo de comercialización (no hay que construir datacenters)\n2. Reemplaza grandes gastos de capital (CAPEX) por bajos costos variables (OPEX)" },
+  { tema: "Costos", pregunta: "De las prácticas para evitar cargos inesperados, ¿cuál NO es recomendada por AWS?", respuesta: "Eliminar configuraciones de lanzamiento de Auto Scaling no utilizadas.\n\nEsas configuraciones no generan costo por sí mismas.\nSí ayuda: eliminar volúmenes EBS sin usar, monitorear instancias innecesarias, usar Budgets." },
+
+  // === MONITORING (ampliado) ===
+  { tema: "Monitoring", pregunta: "Se eliminaron varios buckets de S3 y no está claro quién lo hizo. ¿Qué usarías para identificar al responsable?", respuesta: "Registros de AWS CloudTrail\n\nRegistran usuario/rol, hora e IP de origen de cada llamada a la API, incluidas eliminaciones de buckets." },
+
+  // === IAM (ampliado 2) ===
+  { tema: "IAM", pregunta: "¿Qué dos métodos usan los clientes para interactuar programáticamente con IAM?", respuesta: "AWS CLI y AWS SDKs\n\nPermiten gestionar IAM desde línea de comandos o desde aplicaciones." },
+  { tema: "IAM", pregunta: "¿Qué entidad de IAM es la mejor para conceder acceso TEMPORAL a recursos de AWS?", respuesta: "Roles de IAM\n\nPueden ser asumidos por usuarios, apps o servicios AWS. Dan credenciales temporales — la práctica recomendada para accesos efímeros." },
+
+  // === SHARED RESPONSIBILITY (ampliado 2) ===
+  { tema: "Shared Responsibility", pregunta: "Para servicios administrados como DynamoDB, ¿de qué dos cosas es responsable AWS?", respuesta: "1. Parchear el software de la base de datos\n2. Mantenimiento del sistema operativo subyacente" },
+  { tema: "Shared Responsibility", pregunta: "Al ejecutar una carga de trabajo en AWS, ¿de qué DOS cosas NO es responsable el cliente?", respuesta: "1. Operaciones del centro de datos\n2. Seguridad de la infraestructura física\n\nEso es responsabilidad exclusiva de AWS (seguridad DE la nube)." },
+
+  // === ALMACENAMIENTO (ampliado 2) ===
+  { tema: "Almacenamiento", pregunta: "¿Cuáles son dos casos de uso típicos de Amazon S3?", respuesta: "1. Alojamiento de sitios web estáticos\n2. Almacén de medios como origen para Amazon CloudFront\n\nNo sirve para: apps con alta utilización de CPU (para eso, EC2)." },
+  { tema: "Almacenamiento", pregunta: "¿Qué dos mecanismos protegen los datos en REPOSO en Amazon S3?", respuesta: "1. Versionado (versioning) — recupera versiones anteriores ante borrados accidentales\n2. Permisos (IAM / bucket policies) — controlan quién accede" },
+
+  // === SOPORTE (ampliado) ===
+  { tema: "Soporte", pregunta: "¿Qué característica de AWS Support permite gestionar casos de soporte de forma PROGRAMÁTICA?", respuesta: "AWS Support API\n\nPermite crear, actualizar y gestionar casos de soporte integrándolos con tus sistemas de incidencias." },
+  { tema: "Soporte", pregunta: "¿Qué grupo de AWS ayuda a los clientes a lograr los resultados de negocio deseados?", respuesta: "AWS Professional Services\n\nEquipo de expertos que implementa soluciones y mejores prácticas junto al cliente." },
+
+  // === MIGRACIÓN (ampliado) ===
+  { tema: "Migración", pregunta: "Como parte del AWS Migration Acceleration Program (MAP), ¿qué dos recursos proporciona AWS para acelerar la adopción empresarial?", respuesta: "1. AWS Partners (socios de consultoría y tecnología)\n2. AWS Professional Services (expertos AWS)" },
+
+  // === ETIQUETAS (ampliado) ===
+  { tema: "Etiquetas", pregunta: "¿Cuáles son dos beneficios de implementar una estrategia de etiquetado (tagging) en AWS?", respuesta: "1. Identificar rápidamente los recursos de un proyecto específico\n2. Rastrear el gasto de AWS en múltiples recursos (facturación por etiqueta)" },
 ];
