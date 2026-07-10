@@ -292,4 +292,65 @@ const flashcards = [
 
   // === ETIQUETAS (ampliado) ===
   { tema: "Etiquetas", pregunta: "¿Cuáles son dos beneficios de implementar una estrategia de etiquetado (tagging) en AWS?", respuesta: "1. Identificar rápidamente los recursos de un proyecto específico\n2. Rastrear el gasto de AWS en múltiples recursos (facturación por etiqueta)" },
+
+  // === ARQUITECTURA (ampliado 2) ===
+  { tema: "Arquitectura", pregunta: "¿Cuál es la diferencia entre una Zona de Disponibilidad (AZ) y una Ubicación Edge?", respuesta: "AZ → centro de datos aislado DENTRO de una Región (alta disponibilidad).\nUbicación Edge → nodo de CloudFront en cientos de ciudades del mundo (baja latencia de contenido).\n\nUna AZ no está dentro de una Edge Location ni viceversa: son conceptos distintos." },
+  { tema: "Arquitectura", pregunta: "¿Qué modelo de despliegue conecta infraestructura y aplicaciones entre la nube y recursos on-premises existentes?", respuesta: "Modelo HÍBRIDO\n\nCombina infraestructura local (o de otra nube) con recursos en AWS, integrando ambos entornos." },
+  { tema: "Arquitectura", pregunta: "Necesitás un entorno en espera en otra Región, listo en MINUTOS ante un desastre. ¿Qué servicio usarías?", respuesta: "AWS CloudEndure Disaster Recovery\n\nReplica continuamente servidores y aplicaciones a otra Región de AWS, con un RTO (tiempo de recuperación) de minutos." },
+
+  // === SOPORTE (ampliado 2) ===
+  { tema: "Soporte", pregunta: "¿Qué dos características incluye el plan de soporte Business de AWS?", respuesta: "1. Acceso 24x7 al servicio de atención al cliente (teléfono y chat)\n2. Gestión de Eventos de Infraestructura (IEM) disponible por tarifa adicional" },
+
+  // === IAM (ampliado 3) ===
+  { tema: "IAM", pregunta: "Querés que los usuarios de tu app móvil se autentiquen con Amazon, Apple, Facebook o Google. ¿Qué servicio usás?", respuesta: "Amazon Cognito\n\nGestiona identidades federadas con proveedores sociales y el acceso a recursos de AWS.\nIAM ≠ esto: IAM gestiona identidades DENTRO de AWS, no la autenticación de usuarios finales." },
+
+  // === CLOUDFORMATION (ampliado 2) ===
+  { tema: "CloudFormation", pregunta: "¿Qué servicio permite definir en código las políticas y configuraciones de todos tus recursos, para reutilizar la misma plantilla en varios proyectos?", respuesta: "AWS CloudFormation\n\nInfraestructura como Código: la plantilla (JSON/YAML) se versiona, revisa y reutiliza en distintos entornos.\nAWS Config es auditoría, no aprovisionamiento." },
+  { tema: "CloudFormation", pregunta: "¿Cuáles son dos beneficios clave de usar AWS CloudFormation?", respuesta: "1. Automatiza el aprovisionamiento y actualización de infraestructura de forma segura y controlada\n2. Modela TODA la infraestructura en un único archivo de texto (fácil de versionar)" },
+
+  // === COSTOS (ampliado 2) ===
+  { tema: "Costos", pregunta: "¿Cuáles son dos ventajas de usar AWS como proveedor de nube frente a on-premises?", respuesta: "1. Elimina la necesidad de adivinar la capacidad de infraestructura (escalás según demanda real)\n2. Convierte gastos de capital (CAPEX) en gastos operativos (OPEX)\n\nOjo: AWS NO elimina la necesidad de monitorear — es responsabilidad compartida." },
+  { tema: "Costos", pregunta: "¿Qué previsión ofrece AWS Cost Explorer además del análisis histórico?", respuesta: "Previsiones de costos futuros hasta 12 MESES, basadas en el uso histórico." },
+  { tema: "Costos", pregunta: "Tenés varias instancias EC2 On-Demand para desarrollo que no se usan fuera de horario. ¿Cómo reducís el cargo más rápido?", respuesta: "Deteniendo las instancias (Stop).\n\nUna instancia detenida no cobra cómputo (aunque los volúmenes EBS asociados sí se siguen facturando)." },
+  { tema: "Costos", pregunta: "¿Cuáles son dos de los mayores factores de impacto en el costo de una cuenta de AWS?", respuesta: "1. Cargos de cómputo (EC2)\n2. Cargos por transferencia de datos de SALIDA (Data Transfer Out)\n\nLa entrada de datos a AWS normalmente es gratuita; la salida a Internet es lo que más cuesta." },
+  { tema: "Costos", pregunta: "¿Qué significa 'Economías de escala' en el contexto de AWS?", respuesta: "Que AWS reduce continuamente sus costos a medida que crece — y traslada ese ahorro a los clientes en forma de bajadas de precio recurrentes." },
+  { tema: "Costos", pregunta: "¿Qué herramienta puede usar alguien que NO es cliente de AWS para comparar costos on-premises vs AWS?", respuesta: "Calculadora TCO (Total Cost of Ownership)\n\nEs pública: no hace falta tener cuenta de AWS para usarla." },
+  { tema: "Costos", pregunta: "¿Cómo describirías el modelo de precios Pay-As-You-Go de AWS?", respuesta: "Reemplazás grandes gastos de capital (CAPEX) por bajos pagos variables (OPEX) según el uso real de los recursos." },
+
+  // === BASES DE DATOS (ampliado 2) ===
+  { tema: "Bases de Datos", pregunta: "¿Con qué dos servicios podés ejecutar Microsoft SQL Server en AWS?", respuesta: "1. Amazon EC2 (instalás SQL Server vos mismo, control total)\n2. Amazon RDS (versión administrada, menos carga operativa)\n\nLambda no sirve: no es un servicio de base de datos." },
+  { tema: "Bases de Datos", pregunta: "¿Cuáles de estos son ejemplos de bases de datos GESTIONADAS por AWS?", respuesta: "Amazon Neptune (grafos) y Amazon RDS for MySQL (relacional)\n\nMySQL instalado en una instancia EC2 NO cuenta como gestionado: el cliente administra el SO y la base de datos." },
+  { tema: "Bases de Datos", pregunta: "¿Qué característica de RDS hace un FAILOVER automático cuando la base primaria deja de responder?", respuesta: "RDS Multi-AZ\n\nCrea una réplica en espera en otra zona de disponibilidad y conmuta automáticamente ante un fallo.\nLas Read Replicas NO hacen failover automático — solo descargan lecturas." },
+  { tema: "Bases de Datos", pregunta: "¿Cuáles son dos casos de uso de Amazon EMR (Elastic MapReduce)?", respuesta: "1. Analizar y procesar cantidades enormes de datos de forma eficiente\n2. Ejecutar y escalar fácilmente Apache Spark, Hadoop y otros frameworks de Big Data" },
+  { tema: "Bases de Datos", pregunta: "Necesitás latencia inferior a 1 milisegundo para una app IoT en tiempo real. ¿Qué servicio usás?", respuesta: "Amazon ElastiCache for Redis\n\nSu almacenamiento en memoria da latencias de sub-milisegundo, ideal para respuestas instantáneas." },
+
+  // === SHARED RESPONSIBILITY (ampliado 3) ===
+  { tema: "Shared Responsibility", pregunta: "Para Amazon RDS, ¿de qué dos cosas se encarga AWS en tu nombre?", respuesta: "1. Configuración inicial de la base de datos\n2. Gestión del sistema operativo subyacente (parches, mantenimiento)\n\nAWS también hace replicación y backups automáticos." },
+
+  // === REDES (ampliado 2) ===
+  { tema: "Redes", pregunta: "¿Qué servicio de AWS puede hacer comprobaciones de estado (health checks) sobre instancias EC2 y desviar tráfico solo a las sanas?", respuesta: "Amazon Route 53\n\nAdemás de DNS, hace health checks y failover automático hacia recursos saludables." },
+  { tema: "Redes", pregunta: "¿Verdadero o falso? Los clientes de AWS tienen control completo sobre su entorno de red virtual en Amazon VPC.", respuesta: "Verdadero.\n\nPodés elegir el rango de IPs, crear subredes, configurar tablas de rutas, Security Groups y NACLs." },
+  { tema: "Redes", pregunta: "Una empresa de medios transfiere grandes volúmenes de datos críticos hacia/desde AWS TODOS LOS DÍAS y necesita una conexión consistente. ¿Qué servicio usa?", respuesta: "AWS Direct Connect\n\nConexión de red privada y dedicada, baja latencia y mayor ancho de banda que Internet.\nSnowmobile es para transferencias ÚNICAS masivas, no para tráfico diario." },
+
+  // === SEGURIDAD (ampliado 2) ===
+  { tema: "Seguridad", pregunta: "¿Qué dos servicios dan auditoría en TIEMPO REAL para cumplimiento normativo y vulnerabilidades?", respuesta: "AWS Config — audita configuración de recursos contra reglas de cumplimiento\nAWS Trusted Advisor — recomienda en tiempo real sobre seguridad, rendimiento, costo y tolerancia a fallos" },
+
+  // === ALMACENAMIENTO (ampliado 3) ===
+  { tema: "Almacenamiento", pregunta: "¿Cuáles son dos factores que determinan el precio de Amazon EBS?", respuesta: "1. Tamaño de los volúmenes aprovisionados por mes (GB)\n2. Cantidad de datos almacenados en instantáneas (snapshots), facturados como almacenamiento en S3" },
+  { tema: "Almacenamiento", pregunta: "¿Cuál es el beneficio principal de AWS Storage Gateway?", respuesta: "Integra entornos de TI on-premises con el almacenamiento en la nube de AWS.\n\nPermite ampliar capacidad local, respaldar en la nube y acceder con baja latencia." },
+
+  // === SNOW FAMILY (ampliado 2) ===
+  { tema: "Snow Family", pregunta: "Necesitás transferir 200 TB desde tu datacenter a AWS de forma rentable. ¿Qué opción usás?", respuesta: "AWS Snowball (varios dispositivos, hasta 100 TB cada uno)\n\nSnowmobile sería excesivo: está pensado para PETABYTES, no para 200 TB." },
+
+  // === SERVERLESS (ampliado 2) ===
+  { tema: "Serverless", pregunta: "¿Cuáles de los siguientes son servicios BASADOS EN SERVIDOR (no serverless)?", respuesta: "Amazon RDS y Amazon EMR\n\nAmbos requieren infraestructura administrada (instancias) por debajo. AWS Lambda sí es serverless." },
+  { tema: "Serverless", pregunta: "¿Por qué las arquitecturas serverless son más económicas que las basadas en servidor?", respuesta: "Porque los recursos de cómputo solo se usan (y cobran) MIENTRAS se ejecuta el código.\n\nEn arquitecturas basadas en servidor, los recursos corren todo el tiempo, haya o no tráfico." },
+
+  // === EC2 (ampliado 2) ===
+  { tema: "EC2", pregunta: "Necesitás procesar imágenes/video de forma masiva y periódica, sin urgencia de tiempo pero priorizando el MENOR COSTO. ¿Qué tipo de instancia EC2 usás?", respuesta: "Instancias Spot\n\nHasta 90% de descuento sobre On-Demand, a cambio de poder ser interrumpidas. Ideal cuando el costo importa más que el tiempo." },
+
+  // === DEVOPS / DESPLIEGUE ===
+  { tema: "DevOps", pregunta: "¿Qué servicio de AWS usa Chef y Puppet para automatizar la configuración de instancias EC2?", respuesta: "AWS OpsWorks\n\nServicio de gestión de configuración basado en Chef/Puppet para automatizar despliegue y configuración." },
+  { tema: "DevOps", pregunta: "¿Qué servicio despliega aplicaciones tanto en instancias EC2 como en servidores on-premises (ideal para arquitecturas híbridas)?", respuesta: "AWS CodeDeploy\n\nAutomatiza despliegues en EC2, on-premises o Lambda, sin importar el destino." },
+  { tema: "DevOps", pregunta: "Un desarrollador sin experiencia en la nube quiere desplegar y gestionar su app rápidamente. ¿Qué servicio usa?", respuesta: "AWS Elastic Beanstalk\n\nPaaS que despliega y escala apps web automáticamente sin gestionar la infraestructura subyacente." },
 ];
