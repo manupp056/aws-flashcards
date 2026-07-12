@@ -46,17 +46,20 @@ function cambiarTema(tema) {
 // ============================================================
 function cambiarModo(modo) {
   modoActual = modo;
-  document.getElementById("modo-flashcard").classList.toggle("hidden", modo !== "flashcard");
-  document.getElementById("modo-examen").classList.toggle("hidden",    modo !== "examen");
-  document.getElementById("modo-teoria").classList.toggle("hidden",    modo !== "teoria");
-  document.getElementById("tab-flashcard").classList.toggle("activo",  modo === "flashcard");
-  document.getElementById("tab-examen").classList.toggle("activo",     modo === "examen");
-  document.getElementById("tab-teoria").classList.toggle("activo",     modo === "teoria");
+  document.getElementById("modo-flashcard").classList.toggle("hidden",  modo !== "flashcard");
+  document.getElementById("modo-examen").classList.toggle("hidden",     modo !== "examen");
+  document.getElementById("modo-simulacros").classList.toggle("hidden", modo !== "simulacros");
+  document.getElementById("modo-teoria").classList.toggle("hidden",     modo !== "teoria");
+  document.getElementById("tab-flashcard").classList.toggle("activo",   modo === "flashcard");
+  document.getElementById("tab-examen").classList.toggle("activo",      modo === "examen");
+  document.getElementById("tab-simulacros").classList.toggle("activo",  modo === "simulacros");
+  document.getElementById("tab-teoria").classList.toggle("activo",      modo === "teoria");
   // Filtros solo visibles en flashcard/examen
-  document.getElementById("filtros").classList.toggle("hidden", modo === "teoria");
+  document.getElementById("filtros").classList.toggle("hidden", modo === "teoria" || modo === "simulacros");
 
   if (modo === "flashcard") mostrarTarjeta(false);
   if (modo === "teoria") renderizarTeoria(teoria);
+  if (modo === "simulacros") mostrarListaSimulacros();
 }
 
 // ============================================================
@@ -286,6 +289,183 @@ function volverConfig() {
 }
 
 // ============================================================
+// MODO SIMULACROS
+// ============================================================
+let simulacroActivo = null;
+let simIndice       = 0;
+let simCorrectas    = 0;
+let simMal          = 0;
+let simSeleccion    = [];
+let simRespondida   = false;
+
+function mostrarListaSimulacros() {
+  document.getElementById("simulacros-lista").classList.remove("hidden");
+  document.getElementById("simulacro-pregunta").classList.add("hidden");
+  document.getElementById("simulacro-resultado").classList.add("hidden");
+  renderSimulacrosLista();
+}
+
+function renderSimulacrosLista() {
+  const cont = document.getElementById("simulacros-lista");
+  cont.innerHTML = "";
+  simulacros.forEach(sim => {
+    const card = document.createElement("div");
+    card.className = "simulacro-card";
+    card.innerHTML = `
+      <div class="simulacro-card-info">
+        <div class="simulacro-card-nombre">${sim.nombre}</div>
+        <div class="simulacro-card-desc">${sim.descripcion}</div>
+        <div class="simulacro-card-meta">${sim.preguntas.length} preguntas</div>
+      </div>
+      <button class="btn btn-primary">Empezar</button>
+    `;
+    card.querySelector("button").addEventListener("click", () => iniciarSimulacro(sim.id));
+    cont.appendChild(card);
+  });
+}
+
+function iniciarSimulacro(id) {
+  simulacroActivo = simulacros.find(s => s.id === id);
+  simIndice       = 0;
+  simCorrectas    = 0;
+  simMal          = 0;
+
+  document.getElementById("simulacros-lista").classList.add("hidden");
+  document.getElementById("simulacro-resultado").classList.add("hidden");
+  document.getElementById("simulacro-pregunta").classList.remove("hidden");
+
+  mostrarPreguntaSimulacro();
+}
+
+function reiniciarSimulacroActual() {
+  iniciarSimulacro(simulacroActivo.id);
+}
+
+function volverListaSimulacros() {
+  mostrarListaSimulacros();
+}
+
+function mostrarPreguntaSimulacro() {
+  const p     = simulacroActivo.preguntas[simIndice];
+  const total = simulacroActivo.preguntas.length;
+  simRespondida = false;
+  simSeleccion  = [];
+
+  document.getElementById("sim-contador").textContent      = `Pregunta ${simIndice + 1} de ${total}`;
+  document.getElementById("sim-barra").style.width         = `${(simIndice / total) * 100}%`;
+  document.getElementById("sim-tema-badge").textContent    = p.tema;
+  document.getElementById("sim-pregunta-texto").textContent = p.pregunta;
+  document.getElementById("sim-score-ok").textContent      = simCorrectas;
+  document.getElementById("sim-score-mal").textContent     = simMal;
+
+  document.getElementById("sim-multi-badge").classList.toggle("hidden", p.correctas.length <= 1);
+
+  const fb = document.getElementById("sim-feedback-box");
+  fb.classList.remove("visible");
+  document.getElementById("btn-sig-sim").classList.remove("visible");
+  document.getElementById("btn-comprobar-sim").classList.remove("hidden");
+
+  const cont = document.getElementById("sim-opciones");
+  cont.innerHTML = "";
+  p.opciones.forEach((op, i) => {
+    const btn = document.createElement("button");
+    btn.className   = "opcion-btn";
+    btn.textContent = op;
+    btn.addEventListener("click", () => toggleOpcionSimulacro(btn, i));
+    cont.appendChild(btn);
+  });
+}
+
+function toggleOpcionSimulacro(btn, i) {
+  if (simRespondida) return;
+  const p     = simulacroActivo.preguntas[simIndice];
+  const multi = p.correctas.length > 1;
+
+  if (multi) {
+    if (simSeleccion.includes(i)) {
+      simSeleccion = simSeleccion.filter(x => x !== i);
+      btn.classList.remove("seleccionada");
+    } else {
+      simSeleccion.push(i);
+      btn.classList.add("seleccionada");
+    }
+  } else {
+    simSeleccion = [i];
+    document.querySelectorAll("#sim-opciones .opcion-btn").forEach(b => b.classList.remove("seleccionada"));
+    btn.classList.add("seleccionada");
+  }
+}
+
+function comprobarSimulacro() {
+  if (simRespondida || simSeleccion.length === 0) return;
+  simRespondida = true;
+
+  const p         = simulacroActivo.preguntas[simIndice];
+  const correctas = [...p.correctas].sort();
+  const elegidas  = [...simSeleccion].sort();
+  const esCorrecta = JSON.stringify(correctas) === JSON.stringify(elegidas);
+
+  if (esCorrecta) simCorrectas++; else simMal++;
+
+  document.querySelectorAll("#sim-opciones .opcion-btn").forEach((btn, i) => {
+    btn.disabled = true;
+    btn.classList.remove("seleccionada");
+    if (p.correctas.includes(i)) btn.classList.add("correcta");
+    else if (simSeleccion.includes(i)) btn.classList.add("incorrecta");
+  });
+
+  document.getElementById("sim-score-ok").textContent  = simCorrectas;
+  document.getElementById("sim-score-mal").textContent = simMal;
+
+  const fb     = document.getElementById("sim-feedback-box");
+  const titulo = document.getElementById("sim-feedback-titulo");
+  const texto  = document.getElementById("sim-feedback-texto");
+
+  titulo.textContent = esCorrecta ? "✔ Correcto" : "✘ Incorrecto";
+  titulo.className   = "feedback-titulo " + (esCorrecta ? "ok" : "mal");
+  texto.textContent  = p.explicacion;
+  fb.classList.add("visible");
+
+  document.getElementById("btn-comprobar-sim").classList.add("hidden");
+  document.getElementById("btn-sig-sim").classList.add("visible");
+}
+
+function siguientePreguntaSimulacro() {
+  simIndice++;
+  if (simIndice >= simulacroActivo.preguntas.length) {
+    mostrarResultadoSimulacro();
+  } else {
+    mostrarPreguntaSimulacro();
+  }
+}
+
+function mostrarResultadoSimulacro() {
+  document.getElementById("simulacro-pregunta").classList.add("hidden");
+  document.getElementById("simulacro-resultado").classList.remove("hidden");
+
+  const total    = simulacroActivo.preguntas.length;
+  const pct      = Math.round((simCorrectas / total) * 100);
+  const aprobado = pct >= 70;
+
+  document.getElementById("sim-resultado-nota").textContent = `${simCorrectas}/${total}`;
+  document.getElementById("sim-resultado-pct").textContent  = `${pct}%`;
+  document.getElementById("sim-res-ok").textContent         = simCorrectas;
+  document.getElementById("sim-res-mal").textContent        = simMal;
+
+  const estado = document.getElementById("sim-resultado-estado");
+  if (pct >= 85) {
+    estado.textContent = "Excelente — listo para el examen";
+    estado.className   = "resultado-estado ok";
+  } else if (aprobado) {
+    estado.textContent = "Aprobado — seguí practicando";
+    estado.className   = "resultado-estado ok";
+  } else {
+    estado.textContent = "A repasar — por debajo del umbral (70%)";
+    estado.className   = "resultado-estado mal";
+  }
+}
+
+// ============================================================
 // MODO TEORÍA
 // ============================================================
 function parsearMarkdown(texto) {
@@ -369,6 +549,10 @@ function filtrarTeoria() {
 document.addEventListener("DOMContentLoaded", () => {
   iniciarFiltros();
   mostrarTarjeta(false);
+
+  const btnTodas = document.getElementById("btn-todas");
+  btnTodas.dataset.n     = flashcards.length;
+  btnTodas.textContent   = `Todas (${flashcards.length})`;
 
   document.getElementById("card").addEventListener("click", flipCard);
   document.getElementById("btn-anterior").addEventListener("click", anterior);

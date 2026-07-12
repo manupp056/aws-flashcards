@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWS Flashcards – Cloud Practitioner</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
 
@@ -17,6 +17,7 @@
   <div class="modo-tabs">
     <button class="modo-tab activo" id="tab-flashcard" onclick="cambiarModo('flashcard')">Flashcards</button>
     <button class="modo-tab" id="tab-examen" onclick="cambiarModo('examen')">Modo Examen</button>
+    <button class="modo-tab" id="tab-simulacros" onclick="cambiarModo('simulacros')">Simulacros</button>
     <button class="modo-tab" id="tab-teoria" onclick="cambiarModo('teoria')">Teoría</button>
   </div>
 
@@ -69,7 +70,7 @@
         <button class="config-btn activo" data-n="10" onclick="seleccionarCantidad(this)">10 preguntas</button>
         <button class="config-btn" data-n="20" onclick="seleccionarCantidad(this)">20 preguntas</button>
         <button class="config-btn" data-n="50" onclick="seleccionarCantidad(this)">50 preguntas</button>
-        <button class="config-btn" data-n="74" onclick="seleccionarCantidad(this)">Todas (74)</button>
+        <button class="config-btn" id="btn-todas" data-n="74" onclick="seleccionarCantidad(this)">Todas</button>
       </div>
       <button class="btn btn-primary" onclick="iniciarExamen()">Comenzar examen</button>
     </div>
@@ -124,6 +125,67 @@
 
   </div>
 
+  <!-- ======== MODO SIMULACROS ======== -->
+  <div id="modo-simulacros" class="hidden" style="width:100%; max-width:680px;">
+
+    <!-- Lista de simulacros -->
+    <div id="simulacros-lista"></div>
+
+    <!-- Pantalla de pregunta -->
+    <div id="simulacro-pregunta" class="hidden">
+      <div class="examen-header">
+        <span id="sim-contador">Pregunta 1 de 1</span>
+        <span class="examen-score">
+          <span class="ok" id="sim-score-ok">0</span> correctas &nbsp;·&nbsp;
+          <span class="mal" id="sim-score-mal">0</span> incorrectas
+        </span>
+      </div>
+
+      <div class="barra-progreso" style="width:100%; margin-bottom:16px;">
+        <div class="barra-fill" id="sim-barra" style="width:0%"></div>
+      </div>
+
+      <div class="examen-pregunta-box">
+        <span class="examen-tema-badge" id="sim-tema-badge">Tema</span>
+        <span class="examen-tema-badge sim-multi-badge hidden" id="sim-multi-badge">Elegí varias</span>
+        <div class="examen-pregunta-texto" id="sim-pregunta-texto">Pregunta</div>
+      </div>
+
+      <div class="opciones" id="sim-opciones"></div>
+
+      <button class="btn btn-primary" id="btn-comprobar-sim" style="width:100%; margin-bottom:16px;" onclick="comprobarSimulacro()">
+        Comprobar respuesta
+      </button>
+
+      <div class="feedback-box" id="sim-feedback-box">
+        <div class="feedback-titulo" id="sim-feedback-titulo">Correcto</div>
+        <div id="sim-feedback-texto"></div>
+      </div>
+
+      <button class="btn-siguiente-examen" id="btn-sig-sim" onclick="siguientePreguntaSimulacro()">
+        Siguiente pregunta →
+      </button>
+    </div>
+
+    <!-- Pantalla de resultado -->
+    <div id="simulacro-resultado" class="hidden">
+      <div class="resultado-box">
+        <div class="resultado-nota" id="sim-resultado-nota">0</div>
+        <div class="resultado-pct" id="sim-resultado-pct">0%</div>
+        <div class="resultado-estado" id="sim-resultado-estado">—</div>
+        <div class="resultado-desglose">
+          <span class="ok">✔ <span id="sim-res-ok">0</span> correctas</span>
+          <span class="mal">✘ <span id="sim-res-mal">0</span> incorrectas</span>
+        </div>
+        <div class="resultado-btns">
+          <button class="btn btn-secondary" onclick="reiniciarSimulacroActual()">Repetir simulacro</button>
+          <button class="btn btn-primary"   onclick="volverListaSimulacros()">Volver a Simulacros</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- ======== MODO TEORÍA ======== -->
   <div id="modo-teoria" class="hidden" style="width:100%;max-width:760px;">
     <div class="teoria-busqueda">
@@ -134,6 +196,7 @@
 
   <script src="data/flashcards.js"></script>
   <script src="data/teoria.js"></script>
-  <script src="app.js"></script>
+  <script src="data/simulacros.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

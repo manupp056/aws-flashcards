@@ -520,6 +520,41 @@ header p {
   box-shadow: 0 4px 14px var(--accent-glow);
 }
 
+/* ============ MODO SIMULACROS ============ */
+.simulacro-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(160deg, var(--surface-alt), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 26px;
+  margin-bottom: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.simulacro-card-nombre { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.simulacro-card-desc   { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 8px; }
+.simulacro-card-meta   { font-size: 0.75rem; color: var(--accent-lighter); font-weight: 600; }
+
+.sim-multi-badge {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.35);
+  color: #fcd34d;
+  margin-left: 8px;
+}
+
+.opcion-btn.seleccionada {
+  border-color: var(--accent-light);
+  background: var(--surface-alt);
+  box-shadow: 0 0 0 2px var(--accent-glow) inset;
+}
+
+@media (max-width: 480px) {
+  .simulacro-card { flex-direction: column; align-items: stretch; text-align: center; }
+}
+
 /* ============ MODO TEORÍA ============ */
 .teoria-busqueda {
   margin-bottom: 16px;
