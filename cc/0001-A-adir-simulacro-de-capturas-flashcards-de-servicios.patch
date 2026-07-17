@@ -1,0 +1,101 @@
+From db90ef71ea5dc004cc541191814cdd5b0cd2804b Mon Sep 17 00:00:00 2001
+From: manupp056 <manupp056@users.noreply.github.com>
+Date: Fri, 17 Jul 2026 13:36:33 +0000
+Subject: [PATCH] =?UTF-8?q?A=C3=B1adir=20simulacro=20de=20capturas,=20flas?=
+ =?UTF-8?q?hcards=20de=20servicios/costos=20y=20glosario=20de=20iconos?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/flashcards.js |  5 +++++
+ data/simulacros.js | 35 +++++++++++++++++++++++++++++++++++
+ data/teoria.js     | 14 ++++++++++++++
+ 3 files changed, 54 insertions(+)
+
+diff --git a/data/flashcards.js b/data/flashcards.js
+index 337baf2..8094503 100644
+--- a/data/flashcards.js
++++ b/data/flashcards.js
+@@ -371,4 +371,9 @@ const flashcards = [
+   { tema: "Bases de Datos", pregunta: "¿Cuáles son dos ejemplos de servicios TOTALMENTE gestionados por AWS (AWS se encarga de operación y mantenimiento)?", respuesta: "Amazon DynamoDB y Amazon EMR (Elastic MapReduce)\n\nEl cliente solo se preocupa por los datos y la lógica de aplicación; AWS gestiona aprovisionamiento, parches y escalado." },
+   { tema: "Shared Responsibility", pregunta: "¿Cuáles son dos ejemplos de CONTROLES COMPARTIDOS entre AWS y el cliente?", respuesta: "1. Gestión de parches (AWS parchea la infraestructura, el cliente parchea su SO/apps)\n2. Gestión de configuración (ambos participan según la capa que administran)" },
+   { tema: "Shared Responsibility", pregunta: "¿Cuáles son dos responsabilidades del CLIENTE según el modelo de responsabilidad compartida?", respuesta: "1. Establecer reglas de complejidad de contraseñas (gestión de usuarios/IAM)\n2. Configurar reglas de acceso de red (Security Groups, NACLs)\n\nLa infraestructura física y la virtualización son responsabilidad de AWS." },
++
++  // === SERVICIOS Y COSTOS (CAPTURAS) ===
++  { tema: "Servicios y Costos (Capturas)", pregunta: "¿Cuál es la diferencia clave entre S3 y EBS?", respuesta: "S3 es almacenamiento de objetos (acceso vía web), mientras que EBS es almacenamiento de bloques (disco duro para una instancia EC2)." },
++  { tema: "Servicios y Costos (Capturas)", pregunta: "¿Para qué sirve AWS Trusted Advisor?", respuesta: "Proporciona recomendaciones en tiempo real en 5 categorías: optimización de costos, seguridad, tolerancia a fallos, rendimiento y límites de servicio." },
++  { tema: "Servicios y Costos (Capturas)", pregunta: "¿Cuál es la función de AWS Shield?", respuesta: "Protección gestionada contra ataques DDoS (Distributed Denial of Service)." },
+ ];
+diff --git a/data/simulacros.js b/data/simulacros.js
+index 0e16e71..f5a43e6 100644
+--- a/data/simulacros.js
++++ b/data/simulacros.js
+@@ -343,5 +343,40 @@ const simulacros = [
+         explicacion: "El patrón seguro es: 1) snapshot del volumen gp2 (captura los datos), 2) crear un nuevo volumen io1 a partir de esa instantánea (ya con los datos y el rendimiento deseado), 3) borrar el volumen antiguo una vez verificado. Cambiar la configuración de escalado no cambia el TIPO de volumen; una solicitud de límite flexible es sobre cuotas, no sobre convertir un volumen."
+       }
+     ]
++  },
++  {
++    id: "simulacro_capturas",
++    nombre: "Simulacro: Capturas de Examen AWS",
++    descripcion: "Preguntas tomadas de capturas de examen, con explicación de cada respuesta.",
++    preguntas: [
++      {
++        tema: "Costos",
++        pregunta: "¿Qué servicio de AWS permite a los usuarios buscar, comprar y desplegar software de terceros que se ejecuta en AWS?",
++        opciones: ["AWS CloudFormation", "AWS Marketplace", "AWS Service Catalog", "AWS Managed Services"],
++        correctas: [1],
++        explicacion: "AWS Marketplace es una tienda digital que facilita encontrar, probar y comprar software de terceros optimizado para AWS."
++      },
++      {
++        tema: "Almacenamiento",
++        pregunta: "Un cliente necesita un sistema de almacenamiento de archivos compartido que pueda ser accedido por múltiples instancias EC2 simultáneamente. ¿Qué servicio cumple esto?",
++        opciones: ["Amazon EBS", "Amazon S3", "Amazon EFS", "Amazon Instance Store"],
++        correctas: [2],
++        explicacion: "Amazon EFS (Elastic File System) permite un almacenamiento de archivos escalable y compartido que puede montarse en múltiples instancias concurrentemente."
++      },
++      {
++        tema: "EC2",
++        pregunta: "¿Cuál es el modelo de precios de Amazon EC2 que ofrece el mayor descuento para una carga de trabajo estable y a largo plazo?",
++        opciones: ["On-Demand", "Spot Instances", "Reserved Instances", "Dedicated Hosts"],
++        correctas: [2],
++        explicacion: "Reserved Instances ofrecen un descuento significativo comparado con On-Demand a cambio de un compromiso de 1 o 3 años."
++      },
++      {
++        tema: "Costos",
++        pregunta: "¿Qué herramienta ayuda a estimar el ahorro de costos al migrar de un centro de datos local a AWS?",
++        opciones: ["AWS Budgets", "AWS TCO Calculator", "AWS Pricing Calculator", "Cost Explorer"],
++        correctas: [1],
++        explicacion: "La calculadora de TCO (Total Cost of Ownership) compara los costos de infraestructura propia frente a los de la nube de AWS."
++      }
++    ]
+   }
+ ];
+diff --git a/data/teoria.js b/data/teoria.js
+index a28391e..c34143b 100644
+--- a/data/teoria.js
++++ b/data/teoria.js
+@@ -820,5 +820,19 @@ spam, phishing, ataques DDoS desde IPs de AWS, malware.
+ - Infraestructura segura con modelo de responsabilidad compartida.`
+       }
+     ]
++  },
++  {
++    tema: "Glosario de Iconos Analizados",
++    icono: "🧩",
++    secciones: [
++      {
++        titulo: "Servicios",
++        contenido: `
++**AWS Ground Station** — Servicio para controlar comunicaciones satelitales.
++**AWS Outposts** — Permite ejecutar servicios nativos de AWS en tu propio centro de datos hardware.
++**Amazon Macie** — Seguridad basada en ML para descubrir y proteger datos sensibles en S3.
++        `
++      }
++    ]
+   }
+ ];
+-- 
+2.43.0
+
