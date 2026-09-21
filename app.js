@@ -1,7 +1,8 @@
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
-let mazo        = [...flashcards];
+const todasLasCartas = [...flashcards, ...glosario];
+let mazo        = [...todasLasCartas];
 let indice      = 0;
 let flipped     = false;
 let temaActivo  = "Todos";
@@ -18,7 +19,7 @@ let respondida      = false;
 // ============================================================
 // TEMAS / FILTROS
 // ============================================================
-const temas = ["Todos", ...new Set(flashcards.map(f => f.tema))];
+const temas = ["Todos", ...new Set(todasLasCartas.map(f => f.tema))];
 
 function iniciarFiltros() {
   const cont = document.getElementById("filtros");
@@ -36,7 +37,7 @@ function cambiarTema(tema) {
   document.querySelectorAll(".filtro-btn").forEach(b =>
     b.classList.toggle("activo", b.textContent === tema)
   );
-  mazo   = tema === "Todos" ? [...flashcards] : flashcards.filter(f => f.tema === tema);
+  mazo   = tema === "Todos" ? [...todasLasCartas] : todasLasCartas.filter(f => f.tema === tema);
   indice = 0;
   if (modoActual === "flashcard") mostrarTarjeta(false);
 }
@@ -137,9 +138,12 @@ function seleccionarCantidad(btn) {
 }
 
 function iniciarExamen() {
-  const pool = temaActivo === "Todos"
+  let pool = temaActivo === "Todos"
     ? [...flashcards]
     : flashcards.filter(f => f.tema === temaActivo);
+
+  // Si hay un filtro de glosario activo, el examen usa todo el mazo de preguntas
+  if (pool.length === 0) pool = [...flashcards];
 
   // mezclar y tomar N
   const mezclado = pool.sort(() => Math.random() - 0.5);
@@ -197,7 +201,8 @@ function mostrarPreguntaExamen() {
   document.getElementById("btn-sig-examen").classList.remove("visible");
 
   // Generar opciones
-  const pool    = temaActivo === "Todos" ? flashcards : flashcards.filter(f => f.tema === temaActivo);
+  let pool      = temaActivo === "Todos" ? flashcards : flashcards.filter(f => f.tema === temaActivo);
+  if (pool.length === 0) pool = flashcards;
   const opciones = generarOpciones(tarjeta, pool);
   const cont    = document.getElementById("opciones");
   cont.innerHTML = "";
