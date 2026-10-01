@@ -4,28 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWS Flashcards – Cloud Practitioner</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
 
-  <header>
-    <h1>AWS Cloud Practitioner</h1>
-    <p>Simulacros de estudio · CLF-C02</p>
+  <header class="site-header">
+    <button class="brand" onclick="cambiarModo('inicio')" aria-label="Ir al inicio"><span class="brand-mark">aws<span>↗</span></span><span>Cloud Study<span class="brand-sub">CLOUD PRACTITIONER · CLF-C02</span></span></button>
+    <span class="header-tag">Tu espacio de aprendizaje</span>
   </header>
 
+  <section id="modo-inicio" class="home">
+    <div class="hero"><span class="eyebrow">APRENDE. PRACTICA. AVANZA.</span><h1>Tu siguiente paso<br>empieza en la <em>nube.</em></h1><p>Prepara AWS Cloud Practitioner a tu ritmo. Repasa conceptos, pon a prueba tus conocimientos y vuelve a lo que necesitas reforzar.</p><button class="btn btn-primary" onclick="cambiarModo('flashcard')">Empezar a repasar →</button><span class="hero-decoration" aria-hidden="true">☁</span></div>
+    <div class="home-heading"><h2>¿Cómo quieres estudiar hoy?</h2><p>Elige tu recorrido.</p></div>
+    <div class="study-grid">
+      <button class="study-tile" onclick="cambiarModo('flashcard')"><span class="tile-number">01 / REPASO</span><h3>Flashcards</h3><p>Una pregunta cada vez. Gira la tarjeta y guarda lo que ya sabes.</p><span class="tile-link">Explorar tarjetas ↗</span></button>
+      <button class="study-tile" onclick="cambiarModo('examen')"><span class="tile-number">02 / PRÁCTICA</span><h3>Modo Examen</h3><p>Elige cuántas preguntas responder y comprueba tu resultado.</p><span class="tile-link">Ponerte a prueba ↗</span></button>
+      <button class="study-tile" onclick="cambiarModo('simulacros')"><span class="tile-number">03 / EVALUACIÓN</span><h3>Simulacros</h3><p>Cuestionarios con opciones, explicaciones y repaso de errores.</p><span class="tile-link">Elegir cuestionario ↗</span></button>
+      <button class="study-tile" onclick="cambiarModo('teoria')"><span class="tile-number">04 / CONCEPTOS</span><h3>Teoría</h3><p>Consulta servicios y fundamentos para entender cada respuesta.</p><span class="tile-link">Consultar teoría ↗</span></button>
+    </div>
+    <p class="home-note">Material de estudio independiente para AWS Cloud Practitioner.</p>
+  </section>
+
   <!-- TABS DE MODO -->
-  <div class="modo-tabs">
-    <button class="modo-tab activo" id="tab-flashcard" onclick="cambiarModo('flashcard')">Flashcards</button>
+  <nav class="modo-tabs" aria-label="Secciones de estudio">
+    <button class="modo-tab activo" id="tab-inicio" onclick="cambiarModo('inicio')">Inicio</button>
+    <button class="modo-tab" id="tab-flashcard" onclick="cambiarModo('flashcard')">Flashcards</button>
     <button class="modo-tab" id="tab-examen" onclick="cambiarModo('examen')">Modo Examen</button>
     <button class="modo-tab" id="tab-simulacros" onclick="cambiarModo('simulacros')">Simulacros</button>
     <button class="modo-tab" id="tab-teoria" onclick="cambiarModo('teoria')">Teoría</button>
-  </div>
+  </nav>
 
   <!-- FILTROS (compartido) -->
-  <div class="filtros" id="filtros"></div>
+  <div class="filtros hidden" id="filtros"><label for="tema-select">Filtrar por tema</label><select id="tema-select" onchange="cambiarTema(this.value)"></select></div>
 
   <!-- ======== MODO FLASHCARD ======== -->
-  <div id="modo-flashcard">
+  <div id="modo-flashcard" class="hidden">
     <div class="progreso">
       <div class="barra-progreso">
         <div class="barra-fill" id="barra-fill" style="width:0%"></div>
@@ -34,7 +47,7 @@
     </div>
 
     <div class="scene">
-      <div class="card" id="card">
+      <div class="card" id="card" tabindex="0" role="button" aria-label="Girar tarjeta">
         <div class="card-face card-front">
           <span class="card-tema-badge" id="tema-badge">Tema</span>
           <div class="card-label">Pregunta</div>
@@ -63,7 +76,7 @@
     </div>
     <p id="progreso-estudio" aria-live="polite"></p>
     <div class="stats">
-      <span><span class="dot"></span>Usá las flechas del teclado para navegar</span>
+      <span><span class="dot"></span>Usa las flechas del teclado para navegar</span>
     </div>
   </div>
 
@@ -74,7 +87,7 @@
     <div class="examen-config" id="examen-config">
       <h2>Modo Examen</h2>
       <button class="btn btn-secondary" onclick="cambiarModo('simulacros'); iniciarSimulacro('aws-cp-banco')">Cuestionario del archivo · 27 preguntas</button>
-      <p>Elegí cuántas preguntas querés responder</p>
+      <p>Elige cuántas preguntas quieres responder</p>
       <div class="config-opciones">
         <button class="config-btn activo" data-n="10" onclick="seleccionarCantidad(this)">10 preguntas</button>
         <button class="config-btn" data-n="20" onclick="seleccionarCantidad(this)">20 preguntas</button>
@@ -156,7 +169,7 @@
 
       <div class="examen-pregunta-box">
         <span class="examen-tema-badge" id="sim-tema-badge">Tema</span>
-        <span class="examen-tema-badge sim-multi-badge hidden" id="sim-multi-badge">Elegí varias</span>
+        <span class="examen-tema-badge sim-multi-badge hidden" id="sim-multi-badge">Elige varias</span>
         <div class="examen-pregunta-texto" id="sim-pregunta-texto">Pregunta</div>
       </div>
 
@@ -210,6 +223,6 @@
   <script src="data/teoria.js"></script>
   <script src="data/simulacros.js"></script>
   <script src="data/aws-practitioner.js?v=1"></script>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

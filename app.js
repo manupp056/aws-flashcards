@@ -33,7 +33,7 @@ function marcarTarjeta(conocida) {
 }
 function barajarTarjetas() { mazo = barajar(mazo); indice = 0; mostrarTarjeta(false); }
 let temaActivo  = "Todos";
-let modoActual  = "flashcard";
+let modoActual  = "inicio";
 
 // Examen
 let examenMazo      = [];
@@ -49,21 +49,17 @@ let respondida      = false;
 const temas = ["Todos", ...new Set(todasLasCartas.map(f => f.tema))];
 
 function iniciarFiltros() {
-  const cont = document.getElementById("filtros");
+  const select = document.getElementById("tema-select");
   temas.forEach(tema => {
-    const btn = document.createElement("button");
-    btn.className = "filtro-btn" + (tema === "Todos" ? " activo" : "");
-    btn.textContent = tema;
-    btn.addEventListener("click", () => cambiarTema(tema));
-    cont.appendChild(btn);
+    const option = document.createElement("option");
+    option.value = tema;
+    option.textContent = tema === "Todos" ? "Todos los temas" : tema;
+    select.appendChild(option);
   });
 }
-
 function cambiarTema(tema) {
   temaActivo = tema;
-  document.querySelectorAll(".filtro-btn").forEach(b =>
-    b.classList.toggle("activo", b.textContent === tema)
-  );
+  document.getElementById("tema-select").value = tema;
   actualizarMazo();
 }
 
@@ -72,6 +68,8 @@ function cambiarTema(tema) {
 // ============================================================
 function cambiarModo(modo) {
   modoActual = modo;
+  document.getElementById("modo-inicio").classList.toggle("hidden", modo !== "inicio");
+  document.getElementById("tab-inicio").classList.toggle("activo", modo === "inicio");
   document.getElementById("modo-flashcard").classList.toggle("hidden",  modo !== "flashcard");
   document.getElementById("modo-examen").classList.toggle("hidden",     modo !== "examen");
   document.getElementById("modo-simulacros").classList.toggle("hidden", modo !== "simulacros");
@@ -81,7 +79,7 @@ function cambiarModo(modo) {
   document.getElementById("tab-simulacros").classList.toggle("activo",  modo === "simulacros");
   document.getElementById("tab-teoria").classList.toggle("activo",      modo === "teoria");
   // Filtros solo visibles en flashcard/examen
-  document.getElementById("filtros").classList.toggle("hidden", modo === "teoria" || modo === "simulacros");
+  document.getElementById("filtros").classList.toggle("hidden", modo !== "flashcard" && modo !== "examen");
 
   if (modo === "flashcard") mostrarTarjeta(false);
   if (modo === "teoria") renderizarTeoria(teoria);
@@ -609,13 +607,14 @@ function filtrarTeoria() {
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   iniciarFiltros();
-  mostrarTarjeta(false);
+  cambiarModo("inicio");
 
   const btnTodas = document.getElementById("btn-todas");
   btnTodas.dataset.n     = flashcardsExamen.length;
   btnTodas.textContent   = `Todas (${flashcardsExamen.length})`;
 
   document.getElementById("card").addEventListener("click", flipCard);
+  document.getElementById("card").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); flipCard(); } });
   document.getElementById("btn-anterior").addEventListener("click", anterior);
   document.getElementById("btn-siguiente").addEventListener("click", siguiente);
   document.getElementById("btn-aleatorio").addEventListener("click", aleatorio);
