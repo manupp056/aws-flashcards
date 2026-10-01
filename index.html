@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWS Flashcards – Cloud Practitioner</title>
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
 
@@ -54,6 +54,14 @@
       <button class="btn btn-primary"   id="btn-siguiente">Siguiente →</button>
     </div>
 
+    <div class="controles">
+      <button class="btn btn-secondary" onclick="marcarTarjeta(true)">Sé esta</button>
+      <button class="btn btn-secondary" onclick="marcarTarjeta(false)">Repasar</button>
+      <button class="btn btn-secondary" onclick="barajarTarjetas()">Barajar</button>
+      <label><input type="checkbox" id="solo-archivo" onchange="actualizarMazo()"> Solo tarjetas del archivo</label>
+      <label><input type="checkbox" id="solo-pendientes" onchange="actualizarMazo()"> Solo pendientes</label>
+    </div>
+    <p id="progreso-estudio" aria-live="polite"></p>
     <div class="stats">
       <span><span class="dot"></span>Usá las flechas del teclado para navegar</span>
     </div>
@@ -65,6 +73,7 @@
     <!-- Config inicial -->
     <div class="examen-config" id="examen-config">
       <h2>Modo Examen</h2>
+      <button class="btn btn-secondary" onclick="cambiarModo('simulacros'); iniciarSimulacro('aws-cp-banco')">Cuestionario del archivo · 27 preguntas</button>
       <p>Elegí cuántas preguntas querés responder</p>
       <div class="config-opciones">
         <button class="config-btn activo" data-n="10" onclick="seleccionarCantidad(this)">10 preguntas</button>
@@ -177,7 +186,9 @@
           <span class="ok">✔ <span id="sim-res-ok">0</span> correctas</span>
           <span class="mal">✘ <span id="sim-res-mal">0</span> incorrectas</span>
         </div>
+        <div id="sim-errores"></div>
         <div class="resultado-btns">
+          <button class="btn btn-secondary" id="sim-repetir-errores" onclick="repetirErroresSimulacro()">Repetir solo errores</button>
           <button class="btn btn-secondary" onclick="reiniciarSimulacroActual()">Repetir simulacro</button>
           <button class="btn btn-primary"   onclick="volverListaSimulacros()">Volver a Simulacros</button>
         </div>
@@ -198,6 +209,7 @@
   <script src="data/glosario.js"></script>
   <script src="data/teoria.js"></script>
   <script src="data/simulacros.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="data/aws-practitioner.js?v=1"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

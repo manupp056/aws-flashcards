@@ -692,3 +692,11 @@ header p {
   header h1 { font-size: 1.4rem; }
   .examen-pregunta-box { padding: 20px; }
 }
+
+/* Repaso persistente y contenido largo del banco importado. */
+.card-text { min-height: 0; max-height: 100%; overflow-y: auto; width: 100%; }
+.controles { flex-wrap: wrap; align-items: center; }
+#progreso-estudio { color: var(--text-mute); text-align: center; margin-bottom: 16px; }
+#sim-errores { text-align: left; white-space: pre-line; margin: 20px 0; }
+#sim-errores details { padding: 12px; border-bottom: 1px solid var(--border); }
+#sim-errores summary { cursor: pointer; }

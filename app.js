@@ -1,10 +1,37 @@
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
+const flashcardsExamen = flashcards.filter(t => !t.id || !t.id.startsWith("aws-"));
 const todasLasCartas = [...flashcards, ...glosario];
 let mazo        = [...todasLasCartas];
 let indice      = 0;
 let flipped     = false;
+let progresoTarjetas = {};
+try { progresoTarjetas = JSON.parse(localStorage.getItem("aws-progreso-tarjetas") || "{}") || {}; } catch (_) {}
+function idTarjeta(t) { return t.id || t.tema + "::" + t.pregunta; }
+function barajar(lista) {
+  const copia = [...lista];
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia;
+}
+function actualizarMazo() {
+  mazo = todasLasCartas.filter(t => (temaActivo === "Todos" || t.tema === temaActivo) &&
+    (!document.getElementById("solo-archivo").checked || (t.id && t.id.startsWith("aws-"))) &&
+    (!document.getElementById("solo-pendientes").checked || progresoTarjetas[idTarjeta(t)] !== true));
+  indice = 0;
+  mostrarTarjeta(false);
+}
+function marcarTarjeta(conocida) {
+  if (!mazo.length) return;
+  progresoTarjetas[idTarjeta(mazo[indice])] = conocida;
+  try { localStorage.setItem("aws-progreso-tarjetas", JSON.stringify(progresoTarjetas)); } catch (_) {}
+  if (document.getElementById("solo-pendientes").checked) actualizarMazo();
+  else siguiente();
+}
+function barajarTarjetas() { mazo = barajar(mazo); indice = 0; mostrarTarjeta(false); }
 let temaActivo  = "Todos";
 let modoActual  = "flashcard";
 
@@ -37,9 +64,7 @@ function cambiarTema(tema) {
   document.querySelectorAll(".filtro-btn").forEach(b =>
     b.classList.toggle("activo", b.textContent === tema)
   );
-  mazo   = tema === "Todos" ? [...todasLasCartas] : todasLasCartas.filter(f => f.tema === tema);
-  indice = 0;
-  if (modoActual === "flashcard") mostrarTarjeta(false);
+  actualizarMazo();
 }
 
 // ============================================================
@@ -73,7 +98,11 @@ function mostrarTarjeta(animado) {
   const badge    = document.getElementById("tema-badge");
 
   if (mazo.length === 0) {
-    pregunta.textContent  = "No hay tarjetas para este tema.";
+    card.classList.remove("flipped");
+    flipped = false;
+    pregunta.textContent  = "No quedan tarjetas pendientes en este tema.";
+    badge.textContent = temaActivo;
+    actualizarProgreso();
     respuesta.textContent = "";
     return;
   }
@@ -98,11 +127,15 @@ function mostrarTarjeta(animado) {
 
 function actualizarProgreso() {
   const pct = mazo.length > 0 ? ((indice + 1) / mazo.length) * 100 : 0;
-  document.getElementById("contador-texto").textContent = `${indice + 1} / ${mazo.length}`;
+  document.getElementById("contador-texto").textContent = `${mazo.length ? indice + 1 : 0} / ${mazo.length}`;
   document.getElementById("barra-fill").style.width     = pct + "%";
+  const pool = todasLasCartas.filter(t => (temaActivo === "Todos" || t.tema === temaActivo) && (!document.getElementById("solo-archivo").checked || (t.id && t.id.startsWith("aws-"))));
+  const conocidas = pool.filter(t => progresoTarjetas[idTarjeta(t)] === true).length;
+  document.getElementById("progreso-estudio").textContent = `${conocidas} de ${pool.length} aprendidas · ${pool.length - conocidas} pendientes`;
 }
 
 function flipCard() {
+  if (!mazo.length) return;
   const card = document.getElementById("card");
   card.classList.toggle("flipped");
   flipped = !flipped;
@@ -139,11 +172,11 @@ function seleccionarCantidad(btn) {
 
 function iniciarExamen() {
   let pool = temaActivo === "Todos"
-    ? [...flashcards]
-    : flashcards.filter(f => f.tema === temaActivo);
+    ? [...flashcardsExamen]
+    : flashcardsExamen.filter(f => f.tema === temaActivo);
 
   // Si hay un filtro de glosario activo, el examen usa todo el mazo de preguntas
-  if (pool.length === 0) pool = [...flashcards];
+  if (pool.length === 0) pool = [...flashcardsExamen];
 
   // mezclar y tomar N
   const mezclado = pool.sort(() => Math.random() - 0.5);
@@ -201,8 +234,8 @@ function mostrarPreguntaExamen() {
   document.getElementById("btn-sig-examen").classList.remove("visible");
 
   // Generar opciones
-  let pool      = temaActivo === "Todos" ? flashcards : flashcards.filter(f => f.tema === temaActivo);
-  if (pool.length === 0) pool = flashcards;
+  let pool      = temaActivo === "Todos" ? flashcardsExamen : flashcardsExamen.filter(f => f.tema === temaActivo);
+  if (pool.length === 0) pool = flashcardsExamen;
   const opciones = generarOpciones(tarjeta, pool);
   const cont    = document.getElementById("opciones");
   cont.innerHTML = "";
@@ -302,6 +335,8 @@ let simCorrectas    = 0;
 let simMal          = 0;
 let simSeleccion    = [];
 let simRespondida   = false;
+let simErrores = [];
+let simOpciones = [];
 
 function mostrarListaSimulacros() {
   document.getElementById("simulacros-lista").classList.remove("hidden");
@@ -329,8 +364,10 @@ function renderSimulacrosLista() {
   });
 }
 
-function iniciarSimulacro(id) {
-  simulacroActivo = simulacros.find(s => s.id === id);
+function iniciarSimulacro(id, preguntas) {
+  const original = simulacros.find(s => s.id === id);
+  simulacroActivo = { ...original, preguntas: barajar(preguntas || original.preguntas) };
+  simErrores = [];
   simIndice       = 0;
   simCorrectas    = 0;
   simMal          = 0;
@@ -344,6 +381,10 @@ function iniciarSimulacro(id) {
 
 function reiniciarSimulacroActual() {
   iniciarSimulacro(simulacroActivo.id);
+}
+
+function repetirErroresSimulacro() {
+  if (simErrores.length) iniciarSimulacro(simulacroActivo.id, [...simErrores]);
 }
 
 function volverListaSimulacros() {
@@ -372,10 +413,11 @@ function mostrarPreguntaSimulacro() {
 
   const cont = document.getElementById("sim-opciones");
   cont.innerHTML = "";
-  p.opciones.forEach((op, i) => {
+  simOpciones = barajar(p.opciones.map((texto, original) => ({ texto, original })));
+  simOpciones.forEach((op, i) => {
     const btn = document.createElement("button");
     btn.className   = "opcion-btn";
-    btn.textContent = op;
+    btn.textContent = op.texto;
     btn.addEventListener("click", () => toggleOpcionSimulacro(btn, i));
     cont.appendChild(btn);
   });
@@ -383,6 +425,7 @@ function mostrarPreguntaSimulacro() {
 
 function toggleOpcionSimulacro(btn, i) {
   if (simRespondida) return;
+  i = simOpciones[i].original;
   const p     = simulacroActivo.preguntas[simIndice];
   const multi = p.correctas.length > 1;
 
@@ -410,9 +453,10 @@ function comprobarSimulacro() {
   const elegidas  = [...simSeleccion].sort();
   const esCorrecta = JSON.stringify(correctas) === JSON.stringify(elegidas);
 
-  if (esCorrecta) simCorrectas++; else simMal++;
+  if (esCorrecta) simCorrectas++; else { simMal++; simErrores.push(p); }
 
   document.querySelectorAll("#sim-opciones .opcion-btn").forEach((btn, i) => {
+    i = simOpciones[i].original;
     btn.disabled = true;
     btn.classList.remove("seleccionada");
     if (p.correctas.includes(i)) btn.classList.add("correcta");
@@ -456,6 +500,18 @@ function mostrarResultadoSimulacro() {
   document.getElementById("sim-resultado-pct").textContent  = `${pct}%`;
   document.getElementById("sim-res-ok").textContent         = simCorrectas;
   document.getElementById("sim-res-mal").textContent        = simMal;
+  document.getElementById("sim-repetir-errores").classList.toggle("hidden", !simErrores.length);
+  const errores = document.getElementById("sim-errores");
+  errores.replaceChildren();
+  simErrores.forEach(p => {
+    const detalle = document.createElement("details");
+    const titulo = document.createElement("summary");
+    titulo.textContent = p.pregunta;
+    const texto = document.createElement("p");
+    texto.textContent = p.correctas.map(i => p.opciones[i]).join(" · ") + "\n\n" + p.explicacion;
+    detalle.append(titulo, texto);
+    errores.append(detalle);
+  });
 
   const estado = document.getElementById("sim-resultado-estado");
   if (pct >= 85) {
@@ -556,8 +612,8 @@ document.addEventListener("DOMContentLoaded", () => {
   mostrarTarjeta(false);
 
   const btnTodas = document.getElementById("btn-todas");
-  btnTodas.dataset.n     = flashcards.length;
-  btnTodas.textContent   = `Todas (${flashcards.length})`;
+  btnTodas.dataset.n     = flashcardsExamen.length;
+  btnTodas.textContent   = `Todas (${flashcardsExamen.length})`;
 
   document.getElementById("card").addEventListener("click", flipCard);
   document.getElementById("btn-anterior").addEventListener("click", anterior);
@@ -565,7 +621,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-aleatorio").addEventListener("click", aleatorio);
 
   document.addEventListener("keydown", e => {
-    if (modoActual !== "flashcard") return;
+    if (modoActual !== "flashcard" || e.target.closest("button, input, select, textarea, label")) return;
     if (e.key === "ArrowRight")               siguiente();
     else if (e.key === "ArrowLeft")           anterior();
     else if (e.key === " " || e.key === "Enter") { e.preventDefault(); flipCard(); }
