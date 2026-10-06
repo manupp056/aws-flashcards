@@ -715,3 +715,42 @@ button,input,select{font:inherit}button{touch-action:manipulation}button:focus-v
 @media(max-width:950px){.study-grid{grid-template-columns:repeat(2,1fr)}.hero-decoration{right:20px}.hero{padding:40px}.header-tag{display:none}}
 @media(max-width:600px){body{padding:0 16px 32px}.site-header{width:calc(100% + 32px);padding:18px 20px;margin-bottom:16px}.modo-tabs{gap:0;margin-bottom:20px}.modo-tab{padding:12px;font-size:12px}.hero{padding:30px 24px;border-radius:14px}.hero h1{letter-spacing:-1px}.hero p{font-size:14px}.hero-decoration{display:none}.home-heading{display:block;margin-top:28px}.home-heading h2{font-size:20px}.home-heading p{margin-top:8px}.study-grid{gap:12px}.study-tile{padding:20px 16px}.study-tile h3{font-size:18px;margin-top:20px}.study-tile p{font-size:12px}.tile-link{font-size:11px}.filtros{flex-direction:column;align-items:stretch;gap:8px}.filtros select{width:100%;max-width:100%}.card-face{padding:24px 20px}.scene{height:390px}.card-text{font-size:1.1rem}.simulacro-card{align-items:stretch;flex-direction:column}.simulacro-card .btn{width:100%}.controles{gap:8px}.controles .btn{font-size:12px;padding:10px 14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* Paleta oscura para estudiar con menos brillo. */
+:root {
+  color-scheme: dark;
+  --bg-0: #182330; --bg-1: #182330; --bg-2: #1e2c3b;
+  --surface: #232f3e; --surface-alt: #2c3c4e;
+  --border: #435469; --border-strong: #718399;
+  --text: #e7edf5; --text-dim: #c1ccda; --text-mute: #aab9ca;
+  --accent-lighter: #ffbd66; --green: #79d9a4; --green-bg: #173c30;
+  --red: #ffa0aa; --red-bg: #482732;
+}
+body { background: var(--bg-0); }
+.modo-tabs { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 4px; gap: 4px; }
+.modo-tab { font-weight: 800; color: var(--text-dim); border-radius: 6px; }
+.modo-tab.activo { background: var(--surface-alt); color: #ffbd66; border-bottom-color: #ff9900; }
+.modo-tab:hover:not(.activo) { background: var(--surface-alt); color: var(--text); }
+.study-tile, .filtros, .card-front, .btn-secondary,
+.examen-config, .examen-pregunta-box, .resultado-box,
+.simulacro-card, .teoria-tema { background: var(--surface); }
+.study-tile:hover { box-shadow: 0 12px 26px #0003; }
+.tile-number { color: var(--text-mute); }
+.tile-link, .card-label, .simulacro-card-meta,
+.teoria-seccion-titulo { color: #ffbd66; }
+.filtros select { background: var(--bg-0); color: var(--text); }
+.card-back { background: #303845; border-color: #a87b3e; }
+.card-back .card-text { color: var(--text); }
+.card-tema-badge, .examen-tema-badge { background: var(--surface-alt); color: var(--text-dim); }
+.btn-secondary:hover { background: var(--surface-alt); }
+.btn-aleatorio { background: #403323; color: #ffbd66; border-color: #a87b3e; }
+.btn-aleatorio:hover { background: #53402a; }
+.config-btn.activo, .opcion-btn.seleccionada { background: #403323; color: var(--text); border-color: #ff9900; }
+.feedback-box { background: #263c50; border-color: #587895; color: var(--text); }
+.opcion-btn.correcta { color: #a0edbe; }
+.opcion-btn.incorrecta { color: #ffbbc2; }
+.sim-multi-badge { background: #403323; color: #ffbd66; }
+.teoria-seccion-contenido code { background: #403323; color: #ffbd66; }
+.barra-progreso { background: var(--border); }
+button:focus-visible, select:focus-visible, input:focus-visible, .card:focus-visible { outline-color: #8ccfff; }
+@media (max-width: 600px) { .modo-tab { font-weight: 800; } }
