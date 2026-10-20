@@ -1,7 +1,17 @@
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
-const flashcardsExamen = flashcards.filter(t => !t.id || !t.id.startsWith("aws-"));
+function esIdAwsArchivo(id) {
+  return typeof id === "string" && id.toLowerCase().startsWith("aws-");
+}
+
+function esPreguntaExamen(t) {
+  if (!t || !t.id) return true;
+  const id = String(t.id).toLowerCase();
+  return !(id.startsWith("aws-card-") || id.startsWith("aws-tarjeta-") || id.startsWith("aws-quiz-"));
+}
+
+const flashcardsExamen = flashcards.filter(esPreguntaExamen);
 const todasLasCartas = [...flashcards, ...glosario];
 let mazo        = [...todasLasCartas];
 let indice      = 0;
@@ -19,7 +29,7 @@ function barajar(lista) {
 }
 function actualizarMazo() {
   mazo = todasLasCartas.filter(t => (temaActivo === "Todos" || t.tema === temaActivo) &&
-    (!document.getElementById("solo-archivo").checked || (t.id && t.id.startsWith("aws-"))) &&
+    (!document.getElementById("solo-archivo").checked || (t.id && esIdAwsArchivo(String(t.id)))) &&
     (!document.getElementById("solo-pendientes").checked || progresoTarjetas[idTarjeta(t)] !== true));
   indice = 0;
   mostrarTarjeta(false);
@@ -127,7 +137,7 @@ function actualizarProgreso() {
   const pct = mazo.length > 0 ? ((indice + 1) / mazo.length) * 100 : 0;
   document.getElementById("contador-texto").textContent = `${mazo.length ? indice + 1 : 0} / ${mazo.length}`;
   document.getElementById("barra-fill").style.width     = pct + "%";
-  const pool = todasLasCartas.filter(t => (temaActivo === "Todos" || t.tema === temaActivo) && (!document.getElementById("solo-archivo").checked || (t.id && t.id.startsWith("aws-"))));
+  const pool = todasLasCartas.filter(t => (temaActivo === "Todos" || t.tema === temaActivo) && (!document.getElementById("solo-archivo").checked || (t.id && esIdAwsArchivo(String(t.id)))));
   const conocidas = pool.filter(t => progresoTarjetas[idTarjeta(t)] === true).length;
   document.getElementById("progreso-estudio").textContent = `${conocidas} de ${pool.length} aprendidas · ${pool.length - conocidas} pendientes`;
 }
