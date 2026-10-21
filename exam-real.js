@@ -32,7 +32,7 @@
  <button class="btn btn-primary" onclick="iniciarExamenReal(1)">Empezar</button>
  </article>
  </div>
- <p class="real-exam-notice">Material de práctica no oficial. Los dos exámenes comparten preguntas mientras se amplía el banco verificado.</p>
+ <p class="real-exam-notice">Material de práctica no oficial. Dos exámenes con preguntas diferentes, elaboradas para practicar CLF-C02.</p>
  </section>
  <section id="real-curso" class="hidden">
  <div class="examen-header"><strong id="real-progreso"></strong><strong id="real-reloj" class="real-clock" role="timer" aria-live="off"></strong></div>
@@ -42,7 +42,7 @@
  <div class="controles real-exam-controls"><button id="real-anterior" class="btn btn-secondary" onclick="navegarReal(-1)">← Anterior</button><button id="real-siguiente" class="btn btn-secondary" onclick="navegarReal(1)">Siguiente →</button><button class="btn btn-primary" onclick="finalizarReal(false)">Finalizar y corregir</button></div>
  <p id="real-contestadas"></p></section>
  <section id="real-resultado" class="hidden resultado-box"><h2>Resultado del examen</h2><div id="real-nota" class="resultado-nota"></div><div id="real-resumen"></div><div id="real-revision" style="text-align:left;margin-top:20px"></div><button class="btn btn-primary" onclick="volverReal()">Elegir otro examen</button></section>`;
- const normalize=s=>String(s||"").trim().toLocaleLowerCase("es").replace(/\\s+/g," ");
+ const normalize=s=>String(s||"").trim().toLocaleLowerCase("es").replace(/\s+/g," ");
  const banco=[]; const vistos=new Set();
  function add(p){if(!p.pregunta||!Array.isArray(p.opciones)||p.opciones.length<3||!Array.isArray(p.correctas)||!p.correctas.length||p.correctas.some(i=>!Number.isInteger(i)||i<0||i>=p.opciones.length))return;const key=normalize(p.pregunta);if(vistos.has(key))return;vistos.add(key);banco.push(p);}
  // Primero preguntas con opciones originales, incluyendo el banco importado.
