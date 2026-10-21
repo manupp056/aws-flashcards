@@ -619,9 +619,12 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarFiltros();
   cambiarModo("inicio");
 
+  // El simulador moderno sustituye la configuración clásica del examen.
   const btnTodas = document.getElementById("btn-todas");
-  btnTodas.dataset.n     = flashcardsExamen.length;
-  btnTodas.textContent   = `Todas (${flashcardsExamen.length})`;
+  if (btnTodas) {
+    btnTodas.dataset.n = flashcardsExamen.length;
+    btnTodas.textContent = `Todas (${flashcardsExamen.length})`;
+  }
 
   document.getElementById("card").addEventListener("click", flipCard);
   document.getElementById("card").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); flipCard(); } });
