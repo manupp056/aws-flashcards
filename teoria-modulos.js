@@ -26,6 +26,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-2" href="temario/modulo-2.pdf?v=2">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 3 · Prácticas de IA responsable</div>
+    <div class="simulacro-card-desc">Equidad, seguridad, privacidad, transparencia, explicabilidad y herramientas de AWS para una IA responsable.</div>
+    <div class="simulacro-card-meta">43 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-3" href="temario/modulo-3.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
