@@ -42,6 +42,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-4" href="temario/modulo-4.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 5 · Desarrollo de soluciones de IA generativa</div>
+    <div class="simulacro-card-desc">Aprende el ciclo de vida de las aplicaciones de IA generativa, la selección de modelos fundacionales, la ingeniería de prompts, RAG, las técnicas de ajuste, los agentes de IA y la evaluación del rendimiento de los modelos.</div>
+    <div class="simulacro-card-meta">28 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-5" href="temario/modulo-5.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
