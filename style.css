@@ -754,3 +754,29 @@ body { background: var(--bg-0); }
 .barra-progreso { background: var(--border); }
 button:focus-visible, select:focus-visible, input:focus-visible, .card:focus-visible { outline-color: #8ccfff; }
 @media (max-width: 600px) { .modo-tab { font-weight: 800; } }
+
+
+/* Diseño de Exámenes: mismas tarjetas que Simulacros */
+#modo-examen { width:100%; max-width:740px; }
+#real-config { width:100%; }
+.real-intro { margin: 2px 0 22px; }
+.real-intro h2 { font-size:1.3rem; font-weight:800; margin-bottom:9px; color:var(--text); }
+.real-intro p { font-size:0.88rem; line-height:1.65; color:var(--text-dim); }
+.real-exam-card { min-height:116px; }
+.real-exam-card .btn-primary { flex:0 0 auto; min-width:107px; }
+.real-exam-notice { font-size:0.78rem; line-height:1.6; color:var(--text-dim); margin:12px 4px 25px; }
+.real-clock { padding:8px 14px; background:var(--surface-alt); border:1px solid var(--border-strong); border-radius:10px; color:#ff9900; font-size:1rem; font-variant-numeric:tabular-nums; }
+.real-clock-warning { color:#ff7185; border-color:#ff7185; }
+.real-exam-controls { justify-content:space-between; margin:22px 0; }
+.real-exam-controls .btn:disabled { opacity:0.45; cursor:not-allowed; }
+#real-contestadas { text-align:center; color:var(--text-dim); font-size:0.85rem; margin:18px 0; }
+#real-revision details { border:1px solid var(--border); background:var(--surface); border-radius:10px; padding:13px 16px; }
+#real-revision summary { cursor:pointer; line-height:1.5; font-weight:600; }
+#real-revision details p { margin-top:14px; color:var(--text-dim); line-height:1.7; }
+#real-resultado { text-align:center; }
+#real-resultado > .btn { margin-top:24px; }
+@media(max-width:480px) {
+ .real-exam-card { flex-direction:column; align-items:stretch; text-align:center; }
+ .real-exam-controls { justify-content:center; }
+ .real-exam-controls .btn { flex:1 1 40%; padding:10px 14px; }
+}
