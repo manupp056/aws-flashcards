@@ -12,7 +12,7 @@
  <section id="real-config" class="examen-config">
  <h2>Simulación de examen AWS CLF-C02</h2>
  <p>65 preguntas · 90 minutos · resultados al finalizar</p>
- <p>Preguntas de estudio basadas en el banco y las tarjetas disponibles; no son exámenes oficiales.</p>
+ <p>Preguntas con opciones originales del banco de estudio; no son oficiales. Algunos ejercicios pueden repetirse entre exámenes.</p>
  <div class="config-opciones"><button class="config-btn" onclick="iniciarExamenReal(0)">Examen 1 · 65 preguntas</button><button class="config-btn" onclick="iniciarExamenReal(1)">Examen 2 · 65 preguntas</button></div>
  </section>
  <section id="real-curso" class="hidden">
@@ -28,24 +28,14 @@
  function add(p){if(!p.pregunta||!Array.isArray(p.opciones)||p.opciones.length<3||!p.correctas?.length)return;const key=normalize(p.pregunta);if(vistos.has(key))return;vistos.add(key);banco.push(p);}
  // Primero preguntas con opciones originales, incluyendo el banco importado.
  simulacros.forEach(s=>s.preguntas.forEach(p=>add({...p,origen:"Banco de preguntas"})));
- // Completar con tarjetas existentes, generando alternativas de la misma categoría.
- const tarjetas=flashcards.filter(f=>f.pregunta&&f.respuesta&&!/^(aws-card-|aws-tarjeta-|aws-quiz-)/i.test(f.id||""));
- const primera=t=>String(t.respuesta).split("\\n")[0].trim();
- tarjetas.forEach((t,i)=>{
-   const correcta=primera(t);if(correcta.length<3||correcta.length>145)return;
-   let opciones=[correcta];
-   const candidatas=[...tarjetas.filter(x=>x.tema===t.tema),...tarjetas];
-   for(const c of candidatas){const v=primera(c);if(v.length>2&&v.length<145&&!opciones.some(o=>normalize(o)===normalize(v)))opciones.push(v);if(opciones.length===4)break;}
-   if(opciones.length<4)return;
-   const rot=i%4; opciones=[...opciones.slice(rot),...opciones.slice(0,rot)];
-   add({tema:t.tema,pregunta:t.pregunta,opciones,correctas:[opciones.indexOf(correcta)],explicacion:t.respuesta,origen:"Adaptada de flashcard"});
- });
- const bloques=[banco.slice(0,65),banco.slice(65,130)];
+ // Se excluyen las alternativas inventadas automáticamente: podían ser ambiguas.
+ const bloques = banco.length >= 65 ? [banco.slice(0,65), [...banco.slice(65),...banco.slice(0,65)].slice(0,65)] : [];
+ // Si hay menos de 130 preguntas originales, ambos exámenes comparten algunas preguntas.
  let actual=null,indice=0,respuestas=[],fin=0,timer=null,terminado=false;
  const $=id=>document.getElementById(id);
  const mostrar=(id,si)=>$(id).classList.toggle("hidden",!si);
  window.iniciarExamenReal=function(n){
-   if(bloques[n].length!==65){alert("Todavía no hay 65 preguntas disponibles para este examen.");return;}
+   if(!bloques[n] || bloques[n].length!==65){alert("Todavía no hay 65 preguntas disponibles para este examen.");return;}
    clearInterval(timer);actual=bloques[n];indice=0;respuestas=Array(65).fill(null);terminado=false;fin=Date.now()+90*60000;
    mostrar("real-config",false);mostrar("real-resultado",false);mostrar("real-curso",true);
    timer=setInterval(reloj,1000);reloj();pintar();
