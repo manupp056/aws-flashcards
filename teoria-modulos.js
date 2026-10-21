@@ -18,6 +18,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module" href="temario/modulo-1.pdf?v=3">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 2 · Casos de uso y aplicaciones de la IA</div>
+    <div class="simulacro-card-desc">Aplicaciones empresariales, tipos de aprendizaje, IA generativa, selección de modelos y métricas.</div>
+    <div class="simulacro-card-meta">27 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-2" href="temario/modulo-2.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
