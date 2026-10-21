@@ -66,6 +66,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-7" href="temario/modulo-7.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 8 · Fundamentos de la ingeniería de peticiones</div>
+    <div class="simulacro-card-desc">Elaboración, refinado y optimización de peticiones para modelos fundacionales: técnicas sin entrenamiento previo, con ejemplos y cadena de pensamiento, y sus riesgos asociados.</div>
+    <div class="simulacro-card-meta">20 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-8" href="temario/modulo-8.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
