@@ -50,6 +50,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-5" href="temario/modulo-5.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 6 · Optimización de modelos fundacionales</div>
+    <div class="simulacro-card-desc">Mejora de modelos fundacionales con generación mejorada por recuperación (RAG) y refinamiento, bases de datos vectoriales, incrustaciones, agentes y preparación de datos.</div>
+    <div class="simulacro-card-meta">20 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-6" href="temario/modulo-6.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
