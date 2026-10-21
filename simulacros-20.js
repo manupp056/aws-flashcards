@@ -13,24 +13,8 @@
  }
  // Priorizar preguntas con respuestas y distractores redactados originalmente.
  simulacros.forEach(s => s.preguntas.forEach(agregar));
- // Complementar con preguntas del material de repaso existente.
- const tarjetas=flashcards.filter(t=>t.pregunta&&t.respuesta);
- const respuesta=t=>String(t.respuesta).split("\n")[0].trim();
- tarjetas.forEach((t,i)=>{
-   const buena=respuesta(t);
-   if (buena.length<3 || buena.length>140) return;
-   const opciones=[buena];
-   const alternativas=[...tarjetas.filter(x=>x.tema===t.tema),...tarjetas];
-   for(const x of alternativas) {
-     const v=respuesta(x);
-     if(v.length>=3&&v.length<=140&&!opciones.some(o=>normalizar(o)===normalizar(v))) opciones.push(v);
-     if(opciones.length===4) break;
-   }
-   if(opciones.length!==4)return;
-   const giro=i%4;
-   const orden=[...opciones.slice(giro),...opciones.slice(0,giro)];
-   agregar({tema:t.tema,pregunta:t.pregunta,opciones:orden,correctas:[orden.indexOf(buena)],explicacion:t.respuesta});
- });
+ // Solo preguntas con alternativas redactadas en el material original.
+ // Evita distractores automáticos que podrían ser también correctos.
  // Los simulacros son grupos no solapados de 20; excluir sobrantes incompletos.
  const bloques=[];
  for(let i=0;i+20<=banco.length;i+=20) {
