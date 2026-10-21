@@ -58,6 +58,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-6" href="temario/modulo-6.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 7 · Seguridad, cumplimiento y gobernanza para soluciones de IA</div>
+    <div class="simulacro-card-desc">Protección de sistemas de IA en AWS: gobernanza, cumplimiento normativo, protección de datos y gestión de riesgos para acelerar los resultados empresariales.</div>
+    <div class="simulacro-card-meta">48 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-7" href="temario/modulo-7.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
