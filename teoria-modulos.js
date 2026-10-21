@@ -74,6 +74,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-8" href="temario/modulo-8.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 9 · Introducción al machine learning</div>
+    <div class="simulacro-card-desc">Qué es el machine learning, su cronología y conceptos básicos: cómo las máquinas aprenden a partir de los datos y los métodos que lo hacen posible.</div>
+    <div class="simulacro-card-meta">44 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-9" href="temario/modulo-9.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
