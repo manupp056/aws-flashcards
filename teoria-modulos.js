@@ -35,7 +35,8 @@
    </div>
    <div class="theory-reader-card">
     <div class="theory-reader-head"><h3>Apuntes completos con ilustraciones</h3><span class="theory-module-pill">PDF original editado</span></div>
-    <p>El PDF conserva las figuras y los diagramas de las explicaciones. Para verlo aquí por primera vez, selecciona el PDF limpio que te he preparado. Se guardará únicamente en este navegador, para que puedas abrirlo después sin volver a seleccionarlo.</p>
+    <p>Consulta el módulo completo con sus imágenes y diagramas. Puedes leerlo aquí, abrirlo en otra pestaña o descargarlo.</p>
+    <p><a class="btn btn-secondary" href="temario/modulo-1.pdf" target="_blank" rel="noopener">Abrir PDF en otra pestaña</a> <a class="btn btn-secondary" href="temario/modulo-1.pdf" download>Descargar PDF</a></p>
     <div class="theory-reader-buttons">
       <label class="btn btn-primary theory-file-label" for="theory-pdf-input">📄 Cargar PDF del módulo</label>
       <input type="file" id="theory-pdf-input" accept="application/pdf,.pdf" hidden />

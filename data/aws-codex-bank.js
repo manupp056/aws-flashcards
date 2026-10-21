@@ -585,7 +585,9 @@ const codexAwsBank = [
   }
 ];
 
-const codexAwsCardBank = codexAwsBank.map((item) => ({
+const codexAwsPublicadas = codexAwsBank.filter(item => item.id !== "AWS-024" && item.estadoRevision === "revisado");
+
+const codexAwsCardBank = codexAwsPublicadas.map((item) => ({
   id: item.id,
   tema: item.categoria,
   pregunta: item.pregunta,
@@ -598,7 +600,7 @@ simulacros.push({
   id: "aws-codex-banco",
   nombre: "Banco AWS Cloud Practitioner (Codex)",
   descripcion: "32 preguntas revisadas del banco Codex, evitando la pregunta pendiente AWS-024.",
-  preguntas: codexAwsBank.map((item) => ({
+  preguntas: codexAwsPublicadas.map((item) => ({
     id: item.id,
     tema: item.categoria,
     pregunta: item.pregunta,

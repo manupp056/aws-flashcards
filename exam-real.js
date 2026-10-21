@@ -44,18 +44,20 @@
  <section id="real-resultado" class="hidden resultado-box"><h2>Resultado del examen</h2><div id="real-nota" class="resultado-nota"></div><div id="real-resumen"></div><div id="real-revision" style="text-align:left;margin-top:20px"></div><button class="btn btn-primary" onclick="volverReal()">Elegir otro examen</button></section>`;
  const normalize=s=>String(s||"").trim().toLocaleLowerCase("es").replace(/\s+/g," ");
  const banco=[]; const vistos=new Set();
- function add(p){if(!p.pregunta||!Array.isArray(p.opciones)||p.opciones.length<3||!Array.isArray(p.correctas)||!p.correctas.length||p.correctas.some(i=>!Number.isInteger(i)||i<0||i>=p.opciones.length))return;const key=normalize(p.pregunta);if(vistos.has(key))return;vistos.add(key);banco.push(p);}
+ function add(p){if(String(p.id||"").toUpperCase()==="AWS-024")return;if(!p.pregunta||!Array.isArray(p.opciones)||p.opciones.length<3||!Array.isArray(p.correctas)||!p.correctas.length||p.correctas.some(i=>!Number.isInteger(i)||i<0||i>=p.opciones.length))return;const key=normalize(p.pregunta);if(vistos.has(key))return;vistos.add(key);banco.push(p);}
  // Primero preguntas con opciones originales, incluyendo el banco importado.
  simulacros.forEach(s=>s.preguntas.forEach(p=>add({...p,origen:"Banco de preguntas"})));
  // Se excluyen las alternativas inventadas automáticamente: podían ser ambiguas.
- const bloques = banco.length >= 65 ? [banco.slice(0,65), [...banco.slice(65),...banco.slice(0,65)].slice(0,65)] : [];
- // Si hay menos de 130 preguntas originales, ambos exámenes comparten algunas preguntas.
+ // Repartir todo el banco entre dos grupos; seleccionar 65 al iniciar cada intento.
+ const grupos=[[],[]];
+ banco.forEach((p,i)=>grupos[i%2].push(p));
+ const bloques=grupos.map(g=>g.length>=65?g:[]);
  let actual=null,indice=0,respuestas=[],fin=0,timer=null,terminado=false;
  const $=id=>document.getElementById(id);
  const mostrar=(id,si)=>$(id).classList.toggle("hidden",!si);
  window.iniciarExamenReal=function(n){
-   if(!bloques[n] || bloques[n].length!==65){alert("Todavía no hay 65 preguntas disponibles para este examen.");return;}
-   clearInterval(timer);actual=bloques[n];indice=0;respuestas=Array(65).fill(null);terminado=false;fin=Date.now()+90*60000;
+   if(!bloques[n] || bloques[n].length<65){alert("Todavía no hay 65 preguntas disponibles para este examen.");return;}
+   clearInterval(timer);actual=barajar(bloques[n]).slice(0,65);indice=0;respuestas=Array(65).fill(null);terminado=false;fin=Date.now()+90*60000;
    mostrar("real-config",false);mostrar("real-resultado",false);mostrar("real-curso",true);
    timer=setInterval(reloj,1000);reloj();pintar();
  };

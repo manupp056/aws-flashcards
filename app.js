@@ -12,7 +12,7 @@ function esPreguntaExamen(t) {
 }
 
 const flashcardsExamen = flashcards.filter(esPreguntaExamen);
-const todasLasCartas = [...flashcards, ...glosario];
+const todasLasCartas = [...flashcards, ...glosario].filter(t => String(t.id || "").toUpperCase() !== "AWS-024");
 let mazo        = [...todasLasCartas];
 let indice      = 0;
 let flipped     = false;
