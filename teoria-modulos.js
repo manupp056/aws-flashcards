@@ -98,6 +98,38 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-11" href="temario/modulo-11.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 12 · Introducción a Amazon Bedrock</div>
+    <div class="simulacro-card-desc">Qué es Amazon Bedrock: acceso a modelos fundacionales mediante una API unificada, sus conceptos técnicos, características clave y aplicaciones prácticas.</div>
+    <div class="simulacro-card-meta">16 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-12" href="temario/modulo-12.pdf?v=1">Abrir módulo</a>
+  </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 13 · Fundamentos de la ingeniería de peticiones</div>
+    <div class="simulacro-card-desc">Principios, técnicas y mejores prácticas para crear y optimizar peticiones efectivas para modelos de IA generativa.</div>
+    <div class="simulacro-card-meta">68 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-13" href="temario/modulo-13.pdf?v=1">Abrir módulo</a>
+  </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 14 · Amazon Bedrock · Aplicaciones de IA generativa</div>
+    <div class="simulacro-card-desc">Curso completo: introducción a Amazon Bedrock, modelos fundacionales, componentes de aplicaciones, LangChain, patrones de arquitectura y agentes.</div>
+    <div class="simulacro-card-meta">163 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-14" href="temario/modulo-14.pdf?v=1">Abrir módulo</a>
+  </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 15 · Introducción a Amazon Q Developer</div>
+    <div class="simulacro-card-desc">Amazon Q Developer: asistente de IA generativa para comprender, crear, ampliar y operar aplicaciones AWS durante todo el ciclo de vida del desarrollo de software.</div>
+    <div class="simulacro-card-meta">9 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-15" href="temario/modulo-15.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
