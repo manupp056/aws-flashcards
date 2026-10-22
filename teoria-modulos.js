@@ -82,6 +82,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-9" href="temario/modulo-9.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 10 · Introducción a la IA generativa</div>
+    <div class="simulacro-card-desc">Qué es la IA generativa y su relación con el machine learning: cómo los modelos crean texto, imágenes, código, audio y vídeo, y el valor empresarial que aportan.</div>
+    <div class="simulacro-card-meta">33 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-10" href="temario/modulo-10.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
