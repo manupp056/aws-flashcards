@@ -90,6 +90,14 @@
    </div>
    <a class="btn btn-primary" id="theory-open-module-10" href="temario/modulo-10.pdf?v=1">Abrir módulo</a>
   </article>
+  <article class="simulacro-card theory-module-card">
+   <div class="simulacro-card-info">
+    <div class="simulacro-card-nombre">Módulo 11 · Planificación de un proyecto de IA generativa</div>
+    <div class="simulacro-card-desc">Fundamentos técnicos y terminología de la IA generativa, modelos fundacionales y transformadores, planificación de proyectos, casos de uso, riesgos y cumplimiento normativo.</div>
+    <div class="simulacro-card-meta">37 páginas · Diagramas y figuras · Sin portada ni marcas de agua</div>
+   </div>
+   <a class="btn btn-primary" id="theory-open-module-11" href="temario/modulo-11.pdf?v=1">Abrir módulo</a>
+  </article>
  </section>`;
  window.renderizarTeoria = function () {};
 })();
