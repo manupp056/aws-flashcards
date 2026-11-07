@@ -31,6 +31,14 @@
  </div>
  <button class="btn btn-primary" onclick="iniciarExamenReal(1)">Empezar</button>
  </article>
+ <article class="simulacro-card real-exam-card">
+ <div class="simulacro-card-info">
+ <div class="simulacro-card-nombre">Examen 3 · Tandas recientes</div>
+ <div class="simulacro-card-desc">65 preguntas revisadas de las tandas 6, 5, 4, 3 y 2 · exclusivo de Modo Examen</div>
+ <div class="simulacro-card-meta">65 preguntas · ⏱ 01:30:00</div>
+ </div>
+ <button class="btn btn-primary" onclick="iniciarExamenReal(2)">Empezar</button>
+ </article>
  </div>
  <p class="real-exam-notice">Material de práctica no oficial. Dos exámenes con preguntas diferentes, elaboradas para practicar CLF-C02.</p>
  </section>
@@ -52,6 +60,8 @@
  const grupos=[[],[]];
  banco.forEach((p,i)=>grupos[i%2].push(p));
  const bloques=grupos.map(g=>g.length>=65?g:[]);
+ // Banco exclusivo de tandas: NO se incorpora a simulacros.
+ bloques.push(typeof examenTandas65!=="undefined" && examenTandas65.length===65 ? examenTandas65 : []);
  let actual=null,indice=0,respuestas=[],fin=0,timer=null,terminado=false;
  const $=id=>document.getElementById(id);
  const mostrar=(id,si)=>$(id).classList.toggle("hidden",!si);
