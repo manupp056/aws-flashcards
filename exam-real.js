@@ -39,8 +39,16 @@
  </div>
  <button class="btn btn-primary" onclick="iniciarExamenReal(2)">Empezar</button>
  </article>
+ <article class="simulacro-card real-exam-card">
+ <div class="simulacro-card-info">
+ <div class="simulacro-card-nombre">Examen 4 · Tanda 6</div>
+ <div class="simulacro-card-desc">58 preguntas revisadas y 7 nuevas de refuerzo · 65 preguntas · 90 minutos</div>
+ <div class="simulacro-card-meta">65 preguntas · ⏱ 01:30:00</div>
  </div>
- <p class="real-exam-notice">Material de práctica no oficial. Dos exámenes con preguntas diferentes, elaboradas para practicar CLF-C02.</p>
+ <button class="btn btn-primary" onclick="iniciarExamenReal(3)">Empezar</button>
+ </article>
+ </div>
+ <p class="real-exam-notice">Material de práctica no oficial. Preguntas de práctica no oficiales para preparar CLF-C02.</p>
  </section>
  <section id="real-curso" class="hidden">
  <div class="examen-header"><strong id="real-progreso"></strong><strong id="real-reloj" class="real-clock" role="timer" aria-live="off"></strong></div>
@@ -62,6 +70,7 @@
  const bloques=grupos.map(g=>g.length>=65?g:[]);
  // Banco exclusivo de tandas: NO se incorpora a simulacros.
  bloques.push(typeof examenTandas65!=="undefined" && examenTandas65.length===65 ? examenTandas65 : []);
+ bloques.push(typeof examenTanda4!=="undefined" && examenTanda4.length===65 ? examenTanda4 : []);
  let actual=null,indice=0,respuestas=[],fin=0,timer=null,terminado=false;
  const $=id=>document.getElementById(id);
  const mostrar=(id,si)=>$(id).classList.toggle("hidden",!si);
