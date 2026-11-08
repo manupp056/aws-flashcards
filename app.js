@@ -617,7 +617,7 @@ function filtrarTeoria() {
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   iniciarFiltros();
-  cambiarModo("inicio");
+  cambiarModo("flashcard");
 
   // El simulador moderno sustituye la configuración clásica del examen.
   const btnTodas = document.getElementById("btn-todas");
@@ -639,3 +639,42 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (e.key === " " || e.key === "Enter") { e.preventDefault(); flipCard(); }
   });
 });
+
+/* Dashboard AWS: estadísticas reales, acceso lateral y paneles de estudio. */
+function actualizarDashboardAWS() {
+ const total = todasLasCartas.length;
+ const conocidas = todasLasCartas.filter(t => progresoTarjetas[idTarjeta(t)] === true).length;
+ const pct = total ? Math.round(conocidas * 100 / total) : 0;
+ const set = (id, value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+ set("dashboard-total", total);set("dashboard-progress", pct+" %");set("sidebar-progress-value", pct+" %");
+ const bar=document.getElementById("sidebar-progress-bar");if(bar)bar.style.width=pct+"%";
+}
+function mostrarPanelEstudio(tipo) {
+ cambiarModo("panel");
+ const panel=document.getElementById("modo-panel");panel.classList.remove("hidden");
+ const setActive=document.getElementById("tab-"+tipo);if(setActive)setActive.classList.add("activo");
+ const total=todasLasCartas.length,conocidas=todasLasCartas.filter(t=>progresoTarjetas[idTarjeta(t)]===true).length;
+ if(tipo==="progreso")panel.innerHTML='<h2>▥ Progreso de estudio</h2><p>Tarjetas conocidas: '+conocidas+' de '+total+'.</p><p>Tarjetas pendientes: '+(total-conocidas)+'.</p><button class="btn btn-primary" onclick="cambiarModo(\'flashcard\')">Continuar estudiando</button>';
+ if(tipo==="favoritas")panel.innerHTML='<h2>☆ Tarjetas para repasar</h2><p>Accede a las tarjetas pendientes de repaso.</p><button class="btn btn-primary" onclick="document.getElementById(\'solo-pendientes\').checked=true;cambiarModo(\'flashcard\');actualizarMazo()">Ver tarjetas pendientes</button>';
+ if(tipo==="configuracion")panel.innerHTML='<h2>⚙ Configuración de estudio</h2><p>Personaliza el tamaño del texto de las tarjetas.</p><button class="btn btn-secondary" onclick="ajustarFuenteAWS(-1)">A− Reducir</button><button class="btn btn-secondary" onclick="ajustarFuenteAWS(1)">A+ Ampliar</button><p>El progreso de las tarjetas se guarda en este navegador.</p>';
+ actualizarDashboardAWS();
+}
+function ajustarFuenteAWS(delta) {
+ const el=document.getElementById("modo-flashcard");const actual=Number(el.dataset.fontScale||1);
+ const valor=Math.max(.85,Math.min(1.5,Math.round((actual+delta*.1)*100)/100));
+ el.dataset.fontScale=valor;document.documentElement.style.setProperty("--aws-font-scale",valor);
+}
+const cambiarModoDashboardOriginal=window.cambiarModo;
+window.cambiarModo=function(modo) {
+ if(modo==="panel") {
+  ["inicio","flashcard","examen","simulacros","teoria"].forEach(m=>{const el=document.getElementById("modo-"+m);if(el)el.classList.add("hidden");});
+  document.getElementById("filtros").classList.add("hidden");
+  document.querySelectorAll(".modo-tab").forEach(el=>el.classList.remove("activo"));
+ } else {
+  document.getElementById("modo-panel").classList.add("hidden");
+  ["progreso","favoritas","configuracion"].forEach(x=>document.getElementById("tab-"+x)?.classList.remove("activo"));
+  cambiarModoDashboardOriginal(modo);
+ }
+ actualizarDashboardAWS();
+};
+document.addEventListener("DOMContentLoaded",()=>{actualizarDashboardAWS();document.getElementById("modo-flashcard")?.addEventListener("click",()=>setTimeout(actualizarDashboardAWS,0));});
