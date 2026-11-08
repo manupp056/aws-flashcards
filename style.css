@@ -813,3 +813,26 @@ button:focus-visible, select:focus-visible, input:focus-visible, .card:focus-vis
 .theory-outline summary {cursor:pointer;color:#ebf4ff;font-size:.91rem;font-weight:650;line-height:1.5;}
 .theory-outline details p {color:#b1c1d6;line-height:1.7;font-size:.86rem;padding:10px 6px;}
 @media(max-width:600px){.theory-module-card {flex-direction:column;align-items:stretch;}.theory-concept-grid {grid-template-columns:1fr;}.theory-reader-card{padding:16px;}.theory-pdf-viewer{height:65vh;}.theory-diagram{padding:15px 5px;}.theory-diagram-layer{padding:12px 5px;}}
+
+
+/* Accesibilidad tipográfica: lectura más cómoda en exámenes, tarjetas y teoría. */
+body { font-size: 17px; line-height: 1.55; }
+.modo-tab, .btn { font-size: 1rem; }
+.card-text { font-size: 1.32rem; line-height: 1.55; overflow-wrap: anywhere; }
+.card-back .card-text { font-size: 1.12rem; line-height: 1.6; }
+.card-label, .card-tema-badge, .card-hint { font-size: .86rem; }
+.examen-pregunta-texto, #real-pregunta, #sim-pregunta-texto { font-size: 1.25rem; line-height: 1.6; }
+.opcion-btn, #real-opciones .opcion-btn, #sim-opciones .opcion-btn { font-size: 1.08rem; line-height: 1.55; }
+.real-exam-card .simulacro-card-desc, .simulacro-card-desc, .real-exam-notice { font-size: .96rem; line-height: 1.6; }
+.real-exam-card .simulacro-card-meta, #real-contestadas, .progreso { font-size: .98rem; }
+#real-revision summary, #real-revision details p { font-size: 1.02rem; }
+.theory-module-intro p, .theory-lead, .theory-reader-card>p, .theory-outline details p { font-size: 1.03rem; }
+.theory-concept span, .theory-outline summary { font-size: 1rem; }
+@media (max-width: 600px) {
+  .scene { height: 390px; }
+  .card-face { padding: 25px 20px; overflow-y: auto; }
+  .card-text { font-size: 1.18rem; }
+  .card-back .card-text { font-size: 1.05rem; }
+  .modo-tab { font-size: .94rem; }
+  .opcion-btn, #real-opciones .opcion-btn, #sim-opciones .opcion-btn { font-size: 1.02rem; }
+}
