@@ -1,4 +1,4 @@
-// Simulación CLF-C02: dos exámenes fijos de 65 preguntas y 90 minutos.
+// Simulación CLF-C02: cinco exámenes de práctica de 65 preguntas y 90 minutos.
 // Las preguntas derivadas de tarjetas son práctica adicional, no preguntas oficiales.
 (() => {
  const originalCambiarModo = window.cambiarModo;
@@ -47,6 +47,11 @@
  </div>
  <button class="btn btn-primary" onclick="iniciarExamenReal(3)">Empezar</button>
  </article>
+ <article class="simulacro-card real-exam-card">
+ <div class="simulacro-card-info"><div class="simulacro-card-nombre">Examen 5 · Repaso Tanda 7</div>
+ <div class="simulacro-card-desc">65 preguntas reformuladas y revisadas · práctica no oficial</div>
+ <div class="simulacro-card-meta">65 preguntas · ⏱ 01:30:00</div></div>
+ <button class="btn btn-primary" onclick="iniciarExamenReal(4)">Empezar</button></article>
  </div>
  <p class="real-exam-notice">Material de práctica no oficial. Preguntas de práctica no oficiales para preparar CLF-C02.</p>
  </section>
@@ -71,6 +76,7 @@
  // Banco exclusivo de tandas: NO se incorpora a simulacros.
  bloques.push(typeof examenTandas65!=="undefined" && examenTandas65.length===65 ? examenTandas65 : []);
  bloques.push(typeof examenTanda4!=="undefined" && examenTanda4.length===65 ? examenTanda4 : []);
+ bloques.push(typeof examenTanda5!=="undefined" && examenTanda5.length===65 ? examenTanda5 : []);
  let actual=null,indice=0,respuestas=[],fin=0,timer=null,terminado=false;
  const $=id=>document.getElementById(id);
  const mostrar=(id,si)=>$(id).classList.toggle("hidden",!si);
